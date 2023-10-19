@@ -1,0 +1,44 @@
+services:
+  app:
+    image: node:latest
+    ports:
+      - "4200:4200"
+    container_name: frontend
+    working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend
+    command: sh -c "npm install && npm start"
+    environment:
+      # Damit Hot-Reload funktioniert
+      - WATCHPACK_POLLING=true
+      # - WDS_SOCKET_HOST=127.0.0.1
+    depends_on:
+      - api
+      - db
+  api:
+    image: node:latest
+    ports:
+      - "3000:3000"
+    container_name: backend
+    working_dir: /backend
+    volumes:
+      - ./backend:/backend
+    command: sh -c "npm install & npm start"
+    depends_on:
+      - db
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    container_name: database
+    volumes:
+      - mongodb-data:/data/db
+      - mongodb-config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'admin'
+      MONGO_INITDB_ROOT_PASSWORD: '12345'
+      MONGO_INITIDB_DATABASE: 'exercises-db'
+
+volumes:
+  mongodb-data:
+  mongodb-config:
