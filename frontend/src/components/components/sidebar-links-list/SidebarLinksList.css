@@ -1,0 +1,46 @@
+.sidebar-links-list {
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-area-text {
+    color: var(--secondary-color);
+    font-variant: small-caps;
+    font-size: 1.1rem;
+}
+
+.sidebar-links-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.25rem;
+    gap: 0.5rem;
+}
+
+.sidebar-links-container > button {
+    width: 90%;
+    padding: 0.25rem 0;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    border: 2px solid var(--secondary-color);
+    transition:
+        0.25s background-color,
+        0.25s color,
+        0.25s width;
+}
+
+.sidebar-links-container > button.active-link {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.sidebar-links-container > button:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
