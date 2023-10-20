@@ -4,3 +4,7 @@
     display: grid;
     grid-template-columns: repeat(5, 20%);
 }
+
+.dashboard-container > .dashboard-main-container {
+    grid-column: 2 / span 4;
+}

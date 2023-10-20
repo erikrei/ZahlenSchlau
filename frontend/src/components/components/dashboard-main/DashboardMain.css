@@ -1,0 +1,4 @@
+.dashboard-main-container {
+    background-color: var(--secondary-color);
+    padding: 1rem 2rem;
+}
