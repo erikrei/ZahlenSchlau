@@ -1,0 +1,6 @@
+.dashboard-container {
+    width: 100dvw;
+    height: 100dvh;
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+}
