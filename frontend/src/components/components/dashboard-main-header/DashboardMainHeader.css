@@ -1,0 +1,14 @@
+h1, p {
+    color: var(--primary-color);
+}
+
+h1 {
+    letter-spacing: 2px;
+    margin-bottom: .5rem;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
