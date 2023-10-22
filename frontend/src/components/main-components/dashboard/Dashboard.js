@@ -2,8 +2,8 @@ import './Dashboard.css';
 
 import { useState } from 'react';
 
-import Sidebar from "../../components/sidebar/Sidebar";
-import DashboardMain from '../../components/dashboard-main/DashboardMain';
+import Sidebar from "../../components/dashboard/sidebar/Sidebar";
+import DashboardMain from '../../components/dashboard/dashboard-main/DashboardMain';
 
 export default function Dashboard() {
     const [activeLink, setActiveLink] = useState('Grundrechenarten');

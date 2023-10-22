@@ -1,0 +1,5 @@
+main.learning-main {
+    background-color: var(--primary-color);
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
