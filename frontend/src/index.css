@@ -21,6 +21,7 @@
   --text-color: #63372c;
   --disabled-button-color: #8a8d91;
   --primary-black: #252627;
+  --primary-color-dark: #092744;
 }
 
 body {
@@ -34,6 +35,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+div.container {
+  display: grid;
+  width: 100dvw;
+  height: 100dvh;
+  grid-template-columns: repeat(5, 20%);
+  grid-template-rows: auto 1fr;
+}
+
+div.container > header.main-header {
+  grid-column: 1 / span 5;
+}
+
+div.container > aside.learning-sidebar {
+  height: 100%;
+  grid-column: 1;
+}
+
+main.learning-main {
+  height: 100%;
+  grid-column: 2 / span 4;
+}
+
 a {
   text-decoration: none;
 }
@@ -44,4 +67,22 @@ img {
 
 button {
   border: none;
+}
+
+/* SCROLLBARS */
+
+/* width */
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color-dark);
+  border-radius: 0.5rem;
+  border: .25rem solid var(--primary-color);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0.5rem;
 }

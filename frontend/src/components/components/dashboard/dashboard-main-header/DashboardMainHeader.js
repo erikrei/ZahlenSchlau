@@ -25,9 +25,9 @@ export default function DashboardMainHeader({ activeLink }) {
   ).description;
 
   return (
-    <header>
-      <h1>{activeLink}</h1>
-      <p>{activeLinkDescription}</p>
+    <header className='dashboard-header'>
+      <h1 className='dashboard-header-text'>{activeLink}</h1>
+      <p className='dashboard-header-description'>{activeLinkDescription}</p>
     </header>
   );
 }

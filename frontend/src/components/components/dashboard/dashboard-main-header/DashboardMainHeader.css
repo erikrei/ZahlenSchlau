@@ -1,0 +1,15 @@
+h1.dashboard-header-text,
+p.dashboard-header-description {
+  color: var(--primary-color);
+}
+
+h1.dashboard-header-text {
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+p.dashboard-header-description {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  letter-spacing: 1px;
+}

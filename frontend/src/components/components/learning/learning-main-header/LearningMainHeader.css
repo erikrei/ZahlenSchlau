@@ -1,0 +1,23 @@
+section.learning-main-header {
+    display: flex;
+    padding: 0.5rem 1rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--secondary-color);
+    font-weight: bold;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+section.learning-main-header > span,
+section.learning-main-header > p {
+    padding: 0.25rem 1rem;
+    border-radius: .5rem;
+    font-size: 1.2rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+section.learning-main-header > h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
