@@ -1,12 +1,9 @@
-/* .react-tooltip {
-    background-color: red !important;
-} */
-
 div.create-layout-container {
     display: grid;
     width: 100dvw;
     height: 100dvh;
     grid-template-rows: auto 1fr;
+    overflow: hidden;
 }
 
 div.create-main-container {
@@ -29,6 +26,19 @@ aside.create-sidebar > section.created-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    max-height: 30rem;
+    overflow-y: auto;
+}
+
+aside.create-sidebar > section.created-list::-webkit-scrollbar {
+    width: 1rem;
+}
+
+aside.create-sidebar > section.created-list::-webkit-scrollbar-thumb {
+    background: var(--primary-color-dark);
+    border: .25rem solid var(--primary-color);
+    border-top: none;
+    border-bottom: none;
 }
 
 aside.create-sidebar > section.created-list > div.created-exercise {
@@ -61,6 +71,9 @@ main.create-main {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 main.create-main > h2 {
@@ -72,13 +85,23 @@ main.create-main > form {
     flex-direction: column;
     gap: 0.5rem;
     align-items: flex-start;
-    font-size: 1.2rem;
+    margin-top: 1rem;
+    background-color: var(--secondary-color);
+    padding: 2rem 5rem;
+    color: var(--primary-black);
+    border-radius: .5rem;
 }
 
-main.create-main > form > label {
+main.create-main > form > div.form-label-container {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    gap: 2rem;
+}
+
+main.create-main > form .input-container {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-variant: small-caps;
 }
 
 main.create-main > form > div.form-content-container {
@@ -86,21 +109,17 @@ main.create-main > form > div.form-content-container {
     gap: 0.5rem;
 }
 
-main.create-main > form > div.form-content-container > select {
-    font-size: 1.2rem;
-}
-
 main.create-main > form > div.form-content-container > button {
     padding: 0.5rem 1rem;
-    background-color: var(--secondary-color);
     border-radius: 0.25rem;
-    color: var(--primary-color);
     font-weight: bold;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 main.create-main > form > div.form-content-container > button:hover {
     cursor: pointer;
-    background-color: var(--secondary-hover);
+    background-color: var(--primary-color-dark);
 }
 
 main.create-main > form > div.form-content-container > button:disabled {

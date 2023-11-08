@@ -44,30 +44,31 @@ export default function CreateListForm() {
   function addExercise(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("normal");
-    if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
-      setStatus("error");
-      return;
-    } else {
-      setCreatedExercises([
-        ...createdExercises,
-        {
-          ...exerciseInput,
-          _id: uuidv4(),
-        },
-      ]);
-      setExerciseInput({
+    // if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
+    //   setStatus("error");
+    //   return;
+    // }
+    // else {
+    setCreatedExercises([
+      ...createdExercises,
+      {
+        ...exerciseInput,
         _id: uuidv4(),
-        numberOne: 0,
-        numberTwo: 0,
-        operation: "+",
-      });
-    }
+      },
+    ]);
+    setExerciseInput({
+      _id: uuidv4(),
+      numberOne: 0,
+      numberTwo: 0,
+      operation: "+",
+    });
+    // }
   }
 
   function saveData() {
-    let listName = prompt('Wie soll die Aufgabenliste heißen?', '');
-    while(listName === '') {
-      listName = prompt('Wie soll die Aufgabenliste heißen?', '');
+    let listName = prompt("Wie soll die Aufgabenliste heißen?", "");
+    while (listName === "") {
+      listName = prompt("Wie soll die Aufgabenliste heißen?", "");
     }
     setStatus("sending");
     axios
@@ -90,27 +91,29 @@ export default function CreateListForm() {
       {status === "navigate" && <Navigate to="/dashboard" />}
       <h2>Aufgaben zur Liste hinzufügen</h2>
       <form onSubmit={(event) => addExercise(event)}>
-        <label htmlFor="numberOne">
-          Nummer 1
-          <input
-            type="number"
-            id="numberOne"
-            name="numberOne"
-            value={exerciseInput.numberOne.toString()}
-            onChange={(event) => changeInput(event)}
-          />
-        </label>
-        <label htmlFor="numberTwo">
-          Nummer 2
-          <input
-            type="number"
-            id="numberTwo"
-            name="numberTwo"
-            value={Number(exerciseInput.numberTwo).toString()}
-            onChange={(event) => changeInput(event)}
-          />
-        </label>
-        <div className="form-content-container">
+        <div className="form-label-container">
+          <label htmlFor="numberOne" className="input-container">
+            Nummer 1
+            <input
+              type="number"
+              id="numberOne"
+              name="numberOne"
+              value={exerciseInput.numberOne.toString()}
+              onChange={(event) => changeInput(event)}
+            />
+          </label>
+          <label htmlFor="numberTwo" className="input-container">
+            Nummer 2
+            <input
+              type="number"
+              id="numberTwo"
+              name="numberTwo"
+              value={Number(exerciseInput.numberTwo).toString()}
+              onChange={(event) => changeInput(event)}
+            />
+          </label>
+        </div>
+        <div className="input-container">
           <label htmlFor="operation">Rechenart</label>
           <select
             name="operation"

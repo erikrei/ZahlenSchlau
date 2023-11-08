@@ -226,6 +226,12 @@ app.delete("/delete/exercises", async (req, res) => {
   return res.send("Alle Aufgaben erfolgreich gelöscht");
 });
 
+app.delete("/delete/lists", async(req, res) => {
+  await ExerciseList.deleteMany();
+
+  res.send('Alle Listen erfolgreich gelöscht.');
+})
+
 // POST: Test für Erstellung einer Aufgabenliste
 app.post("/create/list", async (req, res) => {
   const newData = {};
