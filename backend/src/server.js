@@ -106,7 +106,7 @@ app.get("/exercises/random", async (req, res) => {
 
   if (operation && operationenStrings.indexOf(operation) !== -1) {
     // return 20 zufällige Aufgaben von gegebener Operation
-    exercises = getRandomExercisesFromOperation(operation, 20);
+    exercises = getRandomExercisesFromOperation(operation, 5);
   }
 
   res.status(200).json(exercises);
