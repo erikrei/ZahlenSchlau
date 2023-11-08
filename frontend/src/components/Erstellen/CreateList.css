@@ -1,0 +1,126 @@
+/* .react-tooltip {
+    background-color: red !important;
+} */
+
+div.create-layout-container {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    grid-template-rows: auto 1fr;
+}
+
+div.create-main-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+aside.create-sidebar {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-right: 2px solid var(--secondary-color);
+    padding: 1rem;
+}
+
+aside.create-sidebar > h2 {
+    margin-bottom: 0.5rem;
+}
+
+aside.create-sidebar > section.created-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+aside.create-sidebar > section.created-list > div.created-exercise {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+aside.create-sidebar > section.created-list > div.created-exercise > p {
+    display: flex;
+    gap: 0.25rem;
+}
+
+aside.create-sidebar > section.created-list > div.created-exercise > svg {
+    color: red;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+aside.create-sidebar > section.created-list > div.created-exercise > svg:hover {
+    cursor: pointer;
+}
+
+main.create-main {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 1rem;
+}
+
+main.create-main > h2 {
+    margin-bottom: 0.5rem;
+}
+
+main.create-main > form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    font-size: 1.2rem;
+}
+
+main.create-main > form > label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+main.create-main > form > div.form-content-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+main.create-main > form > div.form-content-container > select {
+    font-size: 1.2rem;
+}
+
+main.create-main > form > div.form-content-container > button {
+    padding: 0.5rem 1rem;
+    background-color: var(--secondary-color);
+    border-radius: 0.25rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+main.create-main > form > div.form-content-container > button:hover {
+    cursor: pointer;
+    background-color: var(--secondary-hover);
+}
+
+main.create-main > form > div.form-content-container > button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+main.create-main > p {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    font-size: 1.2rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+}
+
+main.create-main > p.form-error {
+    background-color: red;
+}
+
+main.create-main > p.form-feedback {
+    background-color: green;
+}

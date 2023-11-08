@@ -7,7 +7,7 @@ services:
     working_dir: /frontend
     volumes:
       - ./frontend:/frontend
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm install --force && npm start"
     environment:
       # Damit Hot-Reload funktioniert
       - WATCHPACK_POLLING=true

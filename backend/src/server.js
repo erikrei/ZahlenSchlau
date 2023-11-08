@@ -1,8 +1,10 @@
+const { v4 } = require("uuid");
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
 const PORT = 3000;
+// const PORT = 4200;
 
 const Exercise = require("./model/exercise");
 const operationenStrings = [
@@ -20,8 +22,21 @@ app.use(function (req, res, next) {
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
   );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
+
+// app.use(function (req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//   );
+//   next();
+// });
 
 // Stellt Verbindung zur Datenbank auf
 mongoose
@@ -38,6 +53,8 @@ app.post("/add/exercise", async (req, res) => {
   let dataToSave = [];
   let operationBackend = "";
   const data = req.body;
+
+  console.log(data);
 
   for (const currentExercise of data) {
     const numberOne = currentExercise.numberOne;
@@ -86,6 +103,8 @@ app.post("/add/exercise", async (req, res) => {
     });
   }
 
+  console.log(dataToSave);
+
   await Exercise.insertMany(dataToSave);
 
   res.status(201).send("Aufgaben wurden erfolgreich gespeichert");
@@ -108,6 +127,52 @@ app.get("/exercises", async (req, res) => {
 });
 
 // ------------------------------ PRODUCTION-ROUOTEN --------------------------
+
+// GET-REQUEST OHNE DB
+// app.get("/exercises", async (req, res) => {
+//   let generatedExercises = [];
+
+//   for (let i = 1; i <= 50; i++) {
+//     const operation =
+//       operationenStrings[
+//         getRandomNumBetweenNumbers(0, operationenStrings.length - 1)
+//       ];
+//     const numberOne =
+//       operation === "multiplication"
+//         ? getRandomNumBetweenNumbers(1, 10)
+//         : getRandomNumBetweenNumbers(1, 30);
+//     const numberTwo =
+//       operation === "multiplication"
+//         ? getRandomNumBetweenNumbers(1, 10)
+//         : getRandomNumBetweenNumbers(1, 30);
+//     let result;
+//     switch (operation) {
+//       case "addition":
+//         result = numberOne + numberTwo;
+//         break;
+//       case "subtraction":
+//         result = numberOne - numberTwo;
+//         break;
+//       case "multiplication":
+//         result = numberOne * numberTwo;
+//         break;
+//       case "division":
+//         result =
+//           numberOne > numberTwo ? numberOne / numberTwo : numberTwo / numberOne;
+//         result = Number(result.toFixed(2));
+//     }
+
+//     generatedExercises.push({
+//       _id: v4(),
+//       numberOne,
+//       numberTwo,
+//       operation,
+//       result,
+//     });
+//   }
+
+//   res.json(generatedExercises);
+// });
 
 // POST: Generiert 50 zufällige Aufgaben in der Datenbank
 app.post("/exercises/generate", async (req, res) => {
