@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useLoaderData } from "react-router-dom";
+import { useParams, useLoaderData, useSearchParams } from "react-router-dom";
 import "./Abfrage.css";
 
 import { TExerciseData } from "../../types/types.d";
@@ -15,17 +15,19 @@ import AbfrageMain from "./AbfrageMain";
 import AbfrageProvider from "../../contexts/AbfrageContext";
 
 export default function Abfrage() {
-  const { operation } = useParams();
+  const { type } = useParams();
+  const [params] = useSearchParams(); 
+  
   const data: TExerciseData[] = useLoaderData() as TExerciseData[];
-  const dataFromOperation = data.filter(
-    (exercise) => exercise.operation === operation
-  );
 
-  const operationGerman = operation && getHeaderOperationText(operation);
-  const operationSymbol = operation && getOperationSymbol(operation);
+  let operationGerman = type && getHeaderOperationText(type);
+
+  if (type === 'list') {
+    operationGerman = params.get('listName') || '';
+  }
 
   const currentOperationDescription = operationDescriptions.find(
-    (operationDescription) => operationDescription.operation === operation
+    (operationDescription) => operationDescription.operation === type
   )?.description;
 
   return (
@@ -35,12 +37,10 @@ export default function Abfrage() {
         <AbfrageProvider>
           <AbfrageSidebar
             operation={operationGerman}
-            operationSymbol={operationSymbol}
             description={currentOperationDescription}
           />
           <AbfrageMain
-            operationSymbol={operationSymbol}
-            data={dataFromOperation}
+            data={data}
           />
         </AbfrageProvider>
       </div>

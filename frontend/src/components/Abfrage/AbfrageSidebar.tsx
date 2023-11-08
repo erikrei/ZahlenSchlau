@@ -2,16 +2,16 @@ import React from "react";
 
 import { useAbfrageContext } from "../../contexts/AbfrageContext";
 
+import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";
+
 type TSidebarProps = {
   operation?: string;
   description?: string;
-  operationSymbol?: string;
 };
 
 export default function AbfrageSidebar({
   operation,
   description,
-  operationSymbol,
 }: TSidebarProps) {
   const { exercisesHistory } = useAbfrageContext();
 
@@ -35,7 +35,7 @@ export default function AbfrageSidebar({
           >
             <p>
               {exercise.numberOne}
-              {` ${operationSymbol} `}
+              {` ${getOperationSymbol(exercise.operation)} `}
               {exercise.numberTwo}
               {" = "}
               {exercise.result}

@@ -44,11 +44,11 @@ export default function CreateListForm() {
   function addExercise(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("normal");
-    // if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
-    //   setStatus("error");
-    //   return;
-    // }
-    // else {
+    if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
+      setStatus("error");
+      return;
+    }
+    else {
     setCreatedExercises([
       ...createdExercises,
       {
@@ -62,7 +62,7 @@ export default function CreateListForm() {
       numberTwo: 0,
       operation: "+",
     });
-    // }
+    }
   }
 
   function saveData() {

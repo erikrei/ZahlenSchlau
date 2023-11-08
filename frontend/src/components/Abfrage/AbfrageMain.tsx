@@ -6,16 +6,19 @@ import { getAbfrageAntworten } from "../../helper-functions/getAbfrageAntworten"
 
 import AbfrageMainHeader from "./AbfrageMainHeader";
 import AbfrageAntworten from "./AbfrageAntworten";
+import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";
 
 type TMainProps = {
-  operationSymbol?: string;
   data: TExerciseData[];
 };
 
-export default function AbfrageMain({ operationSymbol, data }: TMainProps) {
+export default function AbfrageMain({ data }: TMainProps) {
   const [exerciseIndex, setExerciseIndex] = React.useState(0);
+  const currentExercise = data[exerciseIndex];
   const totalExercises = data.length;
-  const currentExerciseAnswers = getAbfrageAntworten(data[exerciseIndex].result, 4, 5);
+  const currentExerciseAnswers = getAbfrageAntworten(currentExercise.result, 4, 5);
+
+  const operationSymbol = getOperationSymbol(currentExercise.operation);
   
   return (
     <main className="abfrage-main-container">

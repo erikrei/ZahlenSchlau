@@ -37,7 +37,8 @@ export default function AbfrageAntworten({
                 numberOne: currentExercise.numberOne,
                 numberTwo: currentExercise.numberTwo,
                 result: currentExercise.result,
-                answer: answer.answerNumber
+                answer: answer.answerNumber,
+                operation: currentExercise.operation
               }
             ])
           }}
