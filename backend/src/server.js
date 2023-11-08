@@ -7,6 +7,8 @@ const PORT = 3000;
 // const PORT = 4200;
 
 const Exercise = require("./model/exercise");
+const ExerciseList = require("./model/exerciseList");
+
 const operationenStrings = [
   "addition",
   "subtraction",
@@ -53,8 +55,6 @@ app.post("/add/exercise", async (req, res) => {
   let dataToSave = [];
   let operationBackend = "";
   const data = req.body;
-
-  console.log(data);
 
   for (const currentExercise of data) {
     const numberOne = currentExercise.numberOne;
@@ -103,8 +103,6 @@ app.post("/add/exercise", async (req, res) => {
     });
   }
 
-  console.log(dataToSave);
-
   await Exercise.insertMany(dataToSave);
 
   res.status(201).send("Aufgaben wurden erfolgreich gespeichert");
@@ -123,7 +121,7 @@ app.get("/exercises", async (req, res) => {
     exercises = await Exercise.find();
   }
 
-  res.json(exercises);
+  res.status(200).json(exercises);
 });
 
 // ------------------------------ PRODUCTION-ROUOTEN --------------------------
@@ -226,6 +224,60 @@ app.delete("/delete/exercises", async (req, res) => {
   await Exercise.deleteMany();
 
   return res.send("Alle Aufgaben erfolgreich gelöscht");
+});
+
+// POST: Test für Erstellung einer Aufgabenliste
+app.post("/create/list", async (req, res) => {
+  const newData = {};
+  newData.listName = req.body.listName;
+
+  const dataArray = [];
+  const data = req.body.data;
+
+  for (const currentExercise of data) {
+    const { numberOne, numberTwo, operation } = currentExercise;
+    let result;
+    let newOperation;
+    
+    switch(operation) {
+      case '+':
+        result = numberOne + numberTwo;
+        newOperation = 'addition';
+        break;
+      case '-':
+        result = numberOne - numberTwo;
+        newOperation = 'subtraction';
+        break;
+      case '*':
+        result = numberOne * numberTwo;
+        newOperation = 'multiplication';
+        break;
+      case '/':
+        result = numberOne / numberTwo;
+        newOperation = 'division'
+    }
+
+    dataArray.push({
+      numberOne,
+      numberTwo,
+      newOperation,
+      result
+    })
+
+  }
+
+  newData.data = dataArray;
+
+  await ExerciseList.create(newData);
+
+  res.status(200).send("Test");
+});
+
+// GET: Test fürs Erhalten aller Aufgabenlisten
+app.get("/lists", async (req, res) => {
+  const lists = await ExerciseList.find();
+
+  res.status(200).json(lists);
 });
 
 function getRandomNumBetweenNumbers(min, max) {

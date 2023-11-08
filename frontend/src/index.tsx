@@ -21,6 +21,9 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+    loader: async() => {
+      return fetch('http://localhost:3000/lists');
+    }
   },
   {
     path: "/:operation",

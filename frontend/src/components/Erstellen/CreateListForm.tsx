@@ -65,9 +65,16 @@ export default function CreateListForm() {
   }
 
   function saveData() {
+    let listName = prompt('Wie soll die Aufgabenliste heißen?', '');
+    while(listName === '') {
+      listName = prompt('Wie soll die Aufgabenliste heißen?', '');
+    }
     setStatus("sending");
     axios
-      .post("http://localhost:3000/add/exercise", createdExercises)
+      .post("http://localhost:3000/create/list", {
+        listName,
+        data: createdExercises,
+      })
       .then((response) => {
         setCreatedExercises([]);
         setStatus("success");
