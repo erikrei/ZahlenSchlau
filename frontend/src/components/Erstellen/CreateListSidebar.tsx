@@ -18,7 +18,7 @@ export default function CreateListSidebar() {
 
   return (
     <aside className="create-sidebar">
-      <h2>Erstellte Aufgaben Liste</h2>
+      <h2>Erstellte Aufgabenliste</h2>
       {createdExercises.length === 0 && <p>Noch keine Aufgaben hinzugefügt.</p>}
       {createdExercises.length !== 0 && (
         <section className="created-list">

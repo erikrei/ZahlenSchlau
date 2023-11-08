@@ -18,11 +18,13 @@ export default function DashboardAufgabenlisten() {
   return (
     <section className="dashboard-lists-container">
       <CreateListButton />
-      <h2>Erstelle Aufgabenlisten</h2>
+      <h2>Erstellte Aufgabenlisten</h2>
+      {exerciseLists.length === 0 && <p>Du musst zuerst eine Aufgabenliste erstellen.</p>} 
       <div className="dashboard-lists">
         {exerciseLists.map((list) => (
           <div key={list._id}>
             <h3>{list.listName}</h3>
+            <button>Zur Listenabfrage</button>
           </div>
         ))}
       </div>
