@@ -1,0 +1,150 @@
+div.dashboard-container {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+}
+
+aside.dashboard-sidebar {
+    background-color: var(--primary-color);
+    padding: 2rem;
+}
+
+div.sidebar-link-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2rem 0rem;
+}
+
+div.sidebar-link {
+    background-color: var(--secondary-color);
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    width: 90%;
+    transition:
+        0.5s color,
+        0.5s background-color,
+        0.5s border-color,
+        0.5s width;
+}
+
+div.sidebar-link.active {
+    width: 100%;
+    font-weight: bold;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+div.sidebar-link:hover {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+div.sidebar-link > i {
+    display: flex;
+    margin: 0rem 0.5rem;
+}
+
+main.dashboard-main {
+    padding: 1rem 2rem;
+    color: var(--primary-color);
+    overflow-y: auto;
+}
+
+section.dashboard-description-container {
+    background-color: var(--secondary-color);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+section.dashboard-description-container > h1 {
+    font-size: 2rem;
+}
+
+article.dashboard-description {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+article.dashboard-description > svg {
+    flex-shrink: 0;
+    margin-right: 1rem;
+    height: 2rem;
+    width: 2rem;
+}
+
+article.dashboard-description > p {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+
+section.dashboard-content-container {
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+div.card-container {
+    flex: 1 0 calc(50% - 1rem);
+    display: flex;
+    position: relative;
+    border-radius: 1rem;
+    box-shadow: 0.1rem 0.1rem 0.5rem var(--primary-black);
+}
+
+div.card-container > img {
+    width: 100%;
+    max-height: 480px;
+    border-radius: 1rem;
+    filter: brightness(50%);
+    object-fit: cover;
+}
+
+div.card-container > h2 {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    z-index: 1;
+    color: var(--secondary-color);
+    font-size: 2rem;
+}
+
+div.card-container > a {
+    position: absolute;
+    background-color: var(--primary-color);
+    bottom: 5%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%);
+    padding: 0.25rem;
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: bold;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    border: 2px solid var(--secondary-color);
+    transition:
+        0.5s color,
+        0.5s background-color,
+        0.5s border-color;
+}
+
+div.card-container > a:hover {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+}

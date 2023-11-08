@@ -1,5 +1,3 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Roboto&display=swap"); */
-/* @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); */
 @import url("https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap");
 
 *,
@@ -8,8 +6,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Pixelify Sans", sans-serif; */
-  /* font-family: "VT323", monospace; */
   font-family: "Playpen Sans", cursive;
 }
 
@@ -22,6 +18,8 @@
   --disabled-button-color: #8a8d91;
   --primary-black: #252627;
   --primary-color-dark: #092744;
+  --secondary-hover: #f4dc80;
+  --error-red: #ff6a6a;
 }
 
 body {
@@ -29,32 +27,6 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-div.container {
-  display: grid;
-  width: 100dvw;
-  height: 100dvh;
-  grid-template-columns: repeat(5, 20%);
-  grid-template-rows: auto 1fr;
-}
-
-div.container > header.main-header {
-  grid-column: 1 / span 5;
-}
-
-div.container > aside.learning-sidebar {
-  height: 100%;
-  grid-column: 1;
-}
-
-main.learning-main {
-  height: 100%;
-  grid-column: 2 / span 4;
 }
 
 a {
@@ -73,16 +45,11 @@ button {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 1rem;
+  width: .75rem;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color-dark);
-  border-radius: 0.5rem;
-  border: .25rem solid var(--primary-color);
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 0.5rem;
+  background: var(--primary-color);
+  border: .1rem solid white;
 }
