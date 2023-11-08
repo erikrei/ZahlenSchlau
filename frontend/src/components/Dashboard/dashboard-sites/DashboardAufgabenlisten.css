@@ -1,3 +1,11 @@
+section.dashboard-lists-container {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
 a.create-list-link {
     display: flex;
     align-items: center;
@@ -8,10 +16,10 @@ a.create-list-link {
     font-size: 1.5rem;
     border-radius: 1rem;
     font-weight: bold;
-    transition: 
-        .5s margin-left,
-        .5s background-color,
-        .5s color;
+    transition:
+        0.5s margin-left,
+        0.5s background-color,
+        0.5s color;
 }
 
 a.create-list-link > svg {
@@ -23,4 +31,24 @@ a.create-list-link:hover {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     margin-left: 1rem;
+}
+
+section.dashboard-lists-container > h2 {
+    width: 100%;
+    border-top: 2px solid var(--primary-color);
+    padding-top: 0.5rem;
+}
+
+div.dashboard-lists {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+}
+
+div.dashboard-lists > div {
+    background-color: var(--primary-color);
+    height: 20rem;
+    color: var(--secondary-color);
+    padding: 1rem;
+    border-radius: 0.5rem;
 }

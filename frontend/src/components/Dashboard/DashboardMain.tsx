@@ -23,10 +23,8 @@ export default function DashboardMain() {
           <p>{linkDescription}</p>
         </article>
       </section>
-      <section className="dashboard-content-container">
-        {activeLink === "Grundrechenarten" && <DashboardGrundrechenarten />}
-        {activeLink === "Aufgabenlisten" && <DashboardAufgabenlisten />}
-      </section>
+      {activeLink === "Grundrechenarten" && <DashboardGrundrechenarten />}
+      {activeLink === "Aufgabenlisten" && <DashboardAufgabenlisten />}
     </main>
   );
 }
