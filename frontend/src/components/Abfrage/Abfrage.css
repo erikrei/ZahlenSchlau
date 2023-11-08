@@ -92,8 +92,26 @@ section.abfrage-history {
 
 section.abfrage-history > div.history-exercise {
     border-radius: 0.5rem;
-    padding: 0.5rem;
     color: white;
+    display: flex;
+    align-items: center;
+}
+
+section.abfrage-history > div.history-exercise > p {
+    height: 100%;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    border-right: 2px solid white;
+    margin-right: 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+section.abfrage-history > div.history-exercise > div.history-exercise-data {
+    padding: 0.25rem 0rem;
 }
 
 section.abfrage-history > div.history-exercise.right {
@@ -140,7 +158,104 @@ button.answer-button {
     transition: 0.5s background-color;
 }
 
+button.answer-button.answer-right {
+    background-color: green;
+}
+
+button.answer-button.answer-right:hover {
+    background-color: green;
+}
+
+button.answer-button.answer-wrong {
+    background-color: red;
+}
+
+button.answer-button.answer-wrong:hover {
+    background-color: red;
+}
+
 button.answer-button:hover {
     cursor: pointer;
     background-color: var(--primary-color-dark);
 }
+
+main.abfrage-statistik-container {
+    padding: 1rem;
+    background-color: var(--primary-color);
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+main.abfrage-statistik-container > h2 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+main.abfrage-statistik-container > table {
+    width: 25%;
+    color: var(--secondary-color);
+}
+
+table,
+tr,
+th,
+td {
+    border: 1px solid var(--secondary-color);
+    border-collapse: collapse;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+th,
+td {
+    font-size: 1.2rem;
+}
+
+td.color-red {
+    color: red;
+}
+
+td.color-green {
+    color: green;
+}
+
+main.abfrage-statistik-container > div.statistik-button-container {
+    display: flex;
+    gap: 1rem;
+}
+
+div.statistik-button-container > button,
+div.statistik-button-container > a {
+    padding: .5rem 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: .25rem;
+}
+
+
+div.statistik-button-container > button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+div.statistik-button-container > a {
+    background-color: red;
+    color: white;
+}
+
+div.statistik-button-container > button:hover,
+div.statistik-button-container > a:hover {
+    cursor: pointer;
+}
+
+div.statistik-button-container > button:hover {
+    background-color: var(--secondary-hover);
+}
+
+div.statistik-button-container > a:hover {
+    background-color: rgb(174, 4, 4);
+}
+
+

@@ -15,8 +15,6 @@ export default function AbfrageSidebar({
 }: TSidebarProps) {
   const { exercisesHistory } = useAbfrageContext();
 
-  console.log(operation, description);
-
   return (
     <aside className="abfrage-sidebar">
       {description && (
@@ -30,7 +28,7 @@ export default function AbfrageSidebar({
         {exercisesHistory.length === 0 && (
           <p>Noch keine Aufgabe beantwortet.</p>
         )}
-        {exercisesHistory.map((exercise) => (
+        {exercisesHistory.map((exercise, index) => (
           <div
             key={exercise._id}
             className={
@@ -39,16 +37,19 @@ export default function AbfrageSidebar({
                 : "history-exercise wrong"
             }
           >
-            <p>
-              {exercise.numberOne}
-              {` ${getOperationSymbol(exercise.operation)} `}
-              {exercise.numberTwo}
-              {" = "}
-              {exercise.result}
-            </p>
-            {exercise.answer !== exercise.result && (
-              <p>Beantwortet: {exercise.answer}</p>
-            )}
+            <p>{`${index + 1}.`}</p>
+            <div className="history-exercise-data">
+              <p>
+                {exercise.numberOne}
+                {` ${getOperationSymbol(exercise.operation)} `}
+                {exercise.numberTwo}
+                {" = "}
+                {exercise.result}
+              </p>
+              {exercise.answer !== exercise.result && (
+                <p>Beantwortet: {exercise.answer}</p>
+              )}
+            </div>
           </div>
         ))}
       </section>

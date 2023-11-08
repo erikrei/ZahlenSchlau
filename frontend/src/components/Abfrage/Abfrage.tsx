@@ -7,7 +7,6 @@ import { TExerciseData } from "../../types/types.d";
 import { operationDescriptions } from "../../data/data.d";
 
 import { getHeaderOperationText } from "../../helper-functions/getHeaderOperationText";
-import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";
 
 import AbfrageHeader from "./AbfrageHeader";
 import AbfrageSidebar from "./AbfrageSidebar";
