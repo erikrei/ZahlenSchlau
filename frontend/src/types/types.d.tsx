@@ -32,7 +32,7 @@ export type TExerciseData = {
   operation: string;
 };
 
-export type TClickedExercise = Omit<TExerciseData, "operation"> & {
+export type TClickedExercise = TExerciseData & {
   answer: number;
 };
 

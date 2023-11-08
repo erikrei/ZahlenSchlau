@@ -21,22 +21,34 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
-    loader: async() => {
-      return fetch('http://localhost:3000/lists');
-    }
+    loader: async () => {
+      return fetch("http://localhost:3000/lists");
+    },
   },
   {
-    path: "/:operation",
+    path: "/abfrage/:type",
     element: <Abfrage />,
     // erster loader wenn mit Docker gestartet
-    loader: async ( { params }) => {
-      return fetch(`http://localhost:3000/exercises?operation=${params.operation}`);
-    }
+    loader: async ({ params, request }) => {
+      // ["addition", "subtraction", "multiplication", "division"]
+      // list
+      const abfrageType = params.type || "";
+      const url = new URL(request.url);
+      
+      const listName = url.searchParams.get('listName'); 
 
-    // hier werden jedes mal 50 zufällige Aufgaben gefetcht und nicht aus der Datenbank
-    // loader: async () => {
-    //   return fetch("http://localhost:4200/exercises");
-    // },
+      if (
+        ["addition", "subtraction", "multiplication", "division"].includes(
+          abfrageType
+        )
+      ) {
+        return fetch(
+          `http://localhost:3000/exercises/random?type=${abfrageType}`
+        );
+      } else {
+        return fetch(`http://localhost:3000/exercises/list?listName=${listName}`)
+      }
+    },
   },
   {
     path: "/create",
@@ -44,7 +56,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: ":createType",
-        element: <CreateList />
+        element: <CreateList />,
       },
     ],
   },

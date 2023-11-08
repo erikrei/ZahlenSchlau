@@ -2,28 +2,34 @@ import React from "react";
 
 import { useAbfrageContext } from "../../contexts/AbfrageContext";
 
+import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";
+
 type TSidebarProps = {
   operation?: string;
   description?: string;
-  operationSymbol?: string;
 };
 
 export default function AbfrageSidebar({
   operation,
   description,
-  operationSymbol,
 }: TSidebarProps) {
   const { exercisesHistory } = useAbfrageContext();
 
+  console.log(operation, description);
+
   return (
     <aside className="abfrage-sidebar">
-      <section className="sidebar-beschreibung">
-        <h2>Beschreibung der {operation}</h2>
-        <p>{description}</p>
-      </section>
+      {description && (
+        <section className="sidebar-beschreibung">
+          <h2>Beschreibung der {operation}</h2>
+          <p>{description}</p>
+        </section>
+      )}
       <section className="abfrage-history">
         <h2>Aufgabenverlauf</h2>
-        {exercisesHistory.length === 0 && <p>Noch keine Aufgabe beantwortet.</p>}
+        {exercisesHistory.length === 0 && (
+          <p>Noch keine Aufgabe beantwortet.</p>
+        )}
         {exercisesHistory.map((exercise) => (
           <div
             key={exercise._id}
@@ -35,7 +41,7 @@ export default function AbfrageSidebar({
           >
             <p>
               {exercise.numberOne}
-              {` ${operationSymbol} `}
+              {` ${getOperationSymbol(exercise.operation)} `}
               {exercise.numberTwo}
               {" = "}
               {exercise.result}

@@ -59,8 +59,9 @@ div.dashboard-lists > div {
     justify-content: space-between;
 }
 
-div.dashboard-lists > div > button {
+div.dashboard-lists > div > a {
     width: 90%;
+    text-align: center;
     padding: 0.25rem 0rem;
     border-radius: 0.25rem;
     background: var(--secondary-color);
@@ -70,7 +71,7 @@ div.dashboard-lists > div > button {
     transition: 0.5s background-color;
 }
 
-div.dashboard-lists > div > button:hover {
+div.dashboard-lists > div > a:hover {
     background-color: var(--secondary-hover);
     cursor: pointer;
 }
