@@ -15,15 +15,21 @@ export default function AbfrageSidebar({
 }: TSidebarProps) {
   const { exercisesHistory } = useAbfrageContext();
 
+  console.log(operation, description);
+
   return (
     <aside className="abfrage-sidebar">
-      <section className="sidebar-beschreibung">
-        <h2>Beschreibung der {operation}</h2>
-        <p>{description}</p>
-      </section>
+      {description && (
+        <section className="sidebar-beschreibung">
+          <h2>Beschreibung der {operation}</h2>
+          <p>{description}</p>
+        </section>
+      )}
       <section className="abfrage-history">
         <h2>Aufgabenverlauf</h2>
-        {exercisesHistory.length === 0 && <p>Noch keine Aufgabe beantwortet.</p>}
+        {exercisesHistory.length === 0 && (
+          <p>Noch keine Aufgabe beantwortet.</p>
+        )}
         {exercisesHistory.map((exercise) => (
           <div
             key={exercise._id}
