@@ -5,6 +5,10 @@ Das Projekt dient dazu eine Web-Applikation <b>ZahlenSchlau</b> zu erstellen, um
 <b>ZahlenSchlau</b> ist eine Web-Applikation, in der mathematische Aufgaben gestellt werden und in der man individuelle Aufgaben erstellen kann.
 Hauptsächlich geht es hierbei um kleinere Kinder, die durch die Interaktion mit dem Computer vielleicht mehr Lust haben mathematische Aufgaben zu lösen.
 
+Erstmals muss die Applikation mit `git clone https://github.com/erikrei/ZahlenSchlau_react.git` auf dem lokalen Computer gespeichert werden. 
+
+Wenn man sich im Verzeichnis des Projekts befindet wird das Projekt in Docker Containern gestaret, indem man `docker compose up --build` ausführt.
+
 Die Bilder auf der Seite wurden von folgenden Künstlern erstellt:
 - <a href="https://pixabay.com/de/users/pexels-2286921/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1866497">Pexels</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1866497">Pixabay</a>
 - <a href="https://pixabay.com/de/users/pixapopz-2873171/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1547018">Chuk Yong</a> auf <a href="https://pixabay.com/de//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1547018">Pixabay</a>
