@@ -25,8 +25,8 @@ export default function AbfrageHeader({ operation }: THeaderProps) {
           <input
             type="checkbox"
             id="visual-checkbox"
-            defaultChecked={visualLearning}
-            onChange={() => setVisualLearning(!visualLearning)}
+            checked={visualLearning}
+            onChange={() => setVisualLearning(prev => !prev)}
           />
           <label htmlFor="visual-checkbox">Visuelles Lernen</label>
           <FaCircleInfo

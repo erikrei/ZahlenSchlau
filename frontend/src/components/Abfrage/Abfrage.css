@@ -58,8 +58,12 @@ header > section.header-information-container > div.header-option-container {
     color: var(--secondary-color);
 }
 
-header > section.header-information-container > div.header-option-container > input[type="checked"] {
+header > section.header-information-container > div.header-option-container > input[type="checkbox"] {
     scale: 1.2;
+}
+
+input[type="checkbox"]:disabled {
+    cursor: not-allowed;
 }
 
 header > section.header-information-container > div.header-option-container > svg {
@@ -289,4 +293,9 @@ div.statistik-button-container > button:hover {
 
 div.statistik-button-container > a:hover {
     background-color: rgb(174, 4, 4);
+}
+
+div.visual-answer-container {
+    display: flex;
+    flex-wrap: wrap;
 }
