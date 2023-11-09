@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 
 import { Navigate } from "react-router-dom";
 
@@ -11,6 +11,7 @@ import { useErstellteAufgabenContext } from "../../contexts/ErstellteAufgabenCon
 
 export default function CreateListForm() {
   const [status, setStatus] = React.useState("normal");
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const { createdExercises, setCreatedExercises } =
     useErstellteAufgabenContext();
@@ -46,6 +47,7 @@ export default function CreateListForm() {
     setStatus("normal");
     if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
       setStatus("error");
+      setErrorMessage("Überprüfen Sie Ihre Eingaben!");
       return;
     } else {
       setCreatedExercises([
@@ -67,8 +69,10 @@ export default function CreateListForm() {
   function saveData() {
     const listNameRegex = new RegExp(/^[-_A-Za-z0-9]+$/);
     let listName = prompt("Wie soll die Aufgabenliste heißen?", "");
-    while (listName === null || !listNameRegex.test(listName)) {
-      listName = prompt("Wie soll die Aufgabenliste heißen?", "");
+    if (listName === null || !listNameRegex.test(listName)) {
+      setStatus("error");
+      setErrorMessage("Name nicht zulässig.");
+      return;
     }
     setStatus("sending");
     axios
@@ -83,7 +87,11 @@ export default function CreateListForm() {
           setStatus("navigate");
         }, 2000);
       })
-      .catch((error) => console.log(error));
+      .catch((error: AxiosError) => {
+        const httpRequest: XMLHttpRequest = error.request;
+        setStatus("error");
+        setErrorMessage(httpRequest.responseText);
+      });
   }
 
   return (
@@ -146,9 +154,7 @@ export default function CreateListForm() {
           </button>
         </div>
       </form>
-      {status === "error" && (
-        <p className="form-error">Überprüfen Sie Ihre Eingaben!</p>
-      )}
+      {status === "error" && <p className="form-error">{errorMessage}</p>}
       {status === "success" && (
         <p className="form-feedback">
           Die Liste wurde erfolgreich erstellt. Sie werden zum Dashboard

@@ -91,11 +91,19 @@ app.post("/create/list", async (req, res) => {
 
   newData.data = dataArray;
 
-  await ExerciseList.create(newData);
+  try {
+    const dbResult = await ExerciseList.create(newData);
 
-  res
-    .status(200)
-    .send(`Aufgabenliste ${newData.listName} wurde erfolgreich erstellt.`);
+    return res
+      .status(200)
+      .send(`Aufgabenliste ${dbResult.listName} wurde erfolgreich erstellt.`);
+  } catch (error) {
+    const errorCode = error.code;
+    switch (errorCode) {
+      case 11000:
+        res.status(409).send("Name bereits vergeben.");
+    }
+  }
 });
 
 // GET-REQUEST: Erhält alle Aufgaben von der Datenbank in der 'Exercises'-Collection
