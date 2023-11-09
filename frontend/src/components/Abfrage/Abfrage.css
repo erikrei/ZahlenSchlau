@@ -1,3 +1,15 @@
+#visual-learning-info {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-variant: normal;
+    font-weight: bold;
+}
+
+#visual-learning-info:hover {
+    opacity: 1;
+}
+
 div.abfrage-container {
     display: grid;
     width: 100dvw;
@@ -33,7 +45,29 @@ header > a:hover {
     margin-left: 1rem;
 }
 
-header > h1 {
+header > section.header-information-container {
+    display: flex;
+    gap: 1rem;
+}
+
+header > section.header-information-container > div.header-option-container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+header > section.header-information-container > div.header-option-container > input[type="checked"] {
+    scale: 1.2;
+}
+
+header > section.header-information-container > div.header-option-container > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+header > section.header-information-container > h1 {
     color: var(--primary-color);
     padding: 0 2rem;
     border-radius: 0.5rem;
@@ -43,7 +77,7 @@ header > h1 {
     gap: 1rem;
 }
 
-header > h1 > span {
+header > section.header-information-container > h1 > span {
     font-size: 1rem;
     background-color: var(--primary-color);
     color: var(--secondary-color);
@@ -228,12 +262,11 @@ main.abfrage-statistik-container > div.statistik-button-container {
 
 div.statistik-button-container > button,
 div.statistik-button-container > a {
-    padding: .5rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     font-weight: bold;
     font-size: 1rem;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
-
 
 div.statistik-button-container > button {
     background-color: var(--secondary-color);
@@ -257,5 +290,3 @@ div.statistik-button-container > button:hover {
 div.statistik-button-container > a:hover {
     background-color: rgb(174, 4, 4);
 }
-
-

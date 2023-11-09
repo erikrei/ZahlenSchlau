@@ -17,7 +17,12 @@ export default function AbfrageAntworten({
   currentExercise,
 }: TAbfrageAntwortenProps) {
   // Brauche noch richtige Antwort für Überprüfung
-  const { exercisesHistory, setExercisesHistory } = useAbfrageContext();
+  const {
+    exercisesHistory,
+    setExercisesHistory,
+    visualLearning,
+    setVisualLearning,
+  } = useAbfrageContext();
   const [renderFeedback, setRenderFeedback] = React.useState(false);
 
   const correctId = answers.find(
