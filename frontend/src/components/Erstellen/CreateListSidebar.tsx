@@ -37,6 +37,7 @@ export default function CreateListSidebar() {
               <Tooltip
                 id="delete-icon-tooltip"
                 className="delete-tooltip"
+                opacity={1}
                 style={{ backgroundColor: "red" }}
               />
             </div>

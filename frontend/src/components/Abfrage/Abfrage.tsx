@@ -15,14 +15,14 @@ import AbfrageProvider from "../../contexts/AbfrageContext";
 
 export default function Abfrage() {
   const { type } = useParams();
-  const [params] = useSearchParams(); 
-  
+  const [params] = useSearchParams();
+
   const data: TExerciseData[] = useLoaderData() as TExerciseData[];
 
   let operationGerman = type && getHeaderOperationText(type);
 
-  if (type === 'list') {
-    operationGerman = params.get('listName') || '';
+  if (type === "list") {
+    operationGerman = params.get("listName") || "";
   }
 
   const currentOperationDescription = operationDescriptions.find(
@@ -31,18 +31,16 @@ export default function Abfrage() {
 
   return (
     <div className="abfrage-container">
-      <AbfrageHeader operation={operationGerman} />
-      <div className="abfrage-content">
-        <AbfrageProvider>
+      <AbfrageProvider>
+        <AbfrageHeader operation={operationGerman} />
+        <div className="abfrage-content">
           <AbfrageSidebar
             operation={operationGerman}
             description={currentOperationDescription}
           />
-          <AbfrageMain
-            data={data}
-          />
-        </AbfrageProvider>
-      </div>
+          <AbfrageMain data={data} />
+        </div>
+      </AbfrageProvider>
     </div>
   );
 }
