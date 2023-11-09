@@ -35,6 +35,7 @@ a.create-list-link:hover {
 
 section.dashboard-lists-container > h2 {
     width: 100%;
+    font-size: 2rem;
     border-top: 2px solid var(--primary-color);
     padding-top: 0.5rem;
 }
