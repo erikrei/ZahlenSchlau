@@ -1,4 +1,7 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
+
+import { AiFillBug } from "react-icons/ai";
 
 import { TExerciseAnswers } from "../../helper-functions/getAbfrageAntworten";
 
@@ -25,6 +28,12 @@ export default function AbfrageAntworten({
   } = useAbfrageContext();
   const [renderFeedback, setRenderFeedback] = React.useState(false);
 
+  React.useEffect(() => {
+    if (visualLearning && currentExercise.result > 20) {
+      setVisualLearning(false);
+    }
+  }, [visualLearning, currentExercise]);
+
   const correctId = answers.find(
     (answer) => answer.answerNumber === currentExercise.result
   )?._id;
@@ -37,7 +46,13 @@ export default function AbfrageAntworten({
 
     if (!(target instanceof HTMLElement)) return;
 
-    const clickedNumber = Number(target.innerText);
+    let clickedNumber: number;
+
+    if (visualLearning) {
+      clickedNumber = target.childNodes.length;
+    } else {
+      clickedNumber = Number(target.innerText);
+    }
 
     if (clickedNumber !== currentExercise.result) {
       target.classList.add("answer-wrong");
@@ -77,7 +92,11 @@ export default function AbfrageAntworten({
           disabled={renderFeedback}
           onClick={(event) => handleAnswerClick(event, answer._id)}
         >
-          {answer.answerNumber}
+          {visualLearning
+            ? Array(answer.answerNumber)
+                .fill("")
+                .map((item) => <AiFillBug key={uuidv4()} />)
+            : answer.answerNumber}
         </button>
       ))}
     </section>

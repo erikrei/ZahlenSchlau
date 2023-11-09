@@ -1,6 +1,7 @@
 import React from "react";
 
 import { TClickedExercise } from "../types/types.d";
+import { TExerciseData } from "../types/types.d";
 
 type TAbfrageContext = {
   exercisesHistory: TClickedExercise[];
