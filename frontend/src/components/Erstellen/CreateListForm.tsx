@@ -47,27 +47,27 @@ export default function CreateListForm() {
     if (exerciseInput.numberOne === 0 || exerciseInput.numberTwo === 0) {
       setStatus("error");
       return;
-    }
-    else {
-    setCreatedExercises([
-      ...createdExercises,
-      {
-        ...exerciseInput,
+    } else {
+      setCreatedExercises([
+        ...createdExercises,
+        {
+          ...exerciseInput,
+          _id: uuidv4(),
+        },
+      ]);
+      setExerciseInput({
         _id: uuidv4(),
-      },
-    ]);
-    setExerciseInput({
-      _id: uuidv4(),
-      numberOne: 0,
-      numberTwo: 0,
-      operation: "+",
-    });
+        numberOne: 0,
+        numberTwo: 0,
+        operation: "+",
+      });
     }
   }
 
   function saveData() {
+    const listNameRegex = new RegExp(/^[-_A-Za-z0-9]+$/);
     let listName = prompt("Wie soll die Aufgabenliste heißen?", "");
-    while (listName === "") {
+    while (listName === null || !listNameRegex.test(listName)) {
       listName = prompt("Wie soll die Aufgabenliste heißen?", "");
     }
     setStatus("sending");
