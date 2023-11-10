@@ -8,7 +8,7 @@ const PORT = 3000;
 
 const Exercise = require("./model/exercise");
 const ExerciseList = require("./model/exerciseList");
-const Settings = require('./model/settings');
+const Settings = require("./model/settings");
 
 const operationenStrings = [
   "addition",
@@ -113,10 +113,19 @@ app.get("/exercises/random", async (req, res) => {
 
   const operation = req.query.type;
 
+  const { resultRangeFrom, resultRangeTo, visualLearning } = await getSettingsObject();
+
   if (operation && operationenStrings.indexOf(operation) !== -1) {
     // return 20 zufällige Aufgaben von gegebener Operation
-    exercises = getRandomExercisesFromOperation(operation, 20);
+    exercises = getRandomExercisesFromOperation(
+      operation,
+      20,
+      resultRangeFrom,
+      resultRangeTo
+    );
   }
+
+  exercises.visualLearning = visualLearning;
 
   res.status(200).json(exercises);
 });
@@ -130,54 +139,22 @@ app.get("/exercises/list", async (req, res) => {
   res.json(list.data);
 });
 
-// ------------------------------ PRODUCTION-ROUOTEN --------------------------
+app.put("/settings", async (req, res) => {
+  const newSettings = req.body;
 
-// POST: Generiert 50 zufällige Aufgaben in der Datenbank
-app.post("/exercises/generate", async (req, res) => {
-  let generatedExercises = [];
+  try {
+    const dbSettings = await getSettingsObject();
 
-  for (let i = 1; i <= 50; i++) {
-    const operation =
-      operationenStrings[
-        getRandomNumBetweenNumbers(0, operationenStrings.length - 1)
-      ];
-    const numberOne =
-      operation === "multiplication"
-        ? getRandomNumBetweenNumbers(1, 10)
-        : getRandomNumBetweenNumbers(1, 30);
-    const numberTwo =
-      operation === "multiplication"
-        ? getRandomNumBetweenNumbers(1, 10)
-        : getRandomNumBetweenNumbers(1, 30);
-    let result;
-    switch (operation) {
-      case "addition":
-        result = numberOne + numberTwo;
-        break;
-      case "subtraction":
-        result = numberOne - numberTwo;
-        break;
-      case "multiplication":
-        result = numberOne * numberTwo;
-        break;
-      case "division":
-        result =
-          numberOne > numberTwo ? numberOne / numberTwo : numberTwo / numberOne;
-        result = Number(result.toFixed(2));
-    }
-
-    generatedExercises.push({
-      numberOne,
-      numberTwo,
-      operation,
-      result,
-    });
+    // Ändert Settings mit gegebenem body
+    await Settings.findOneAndUpdate(dbSettings, newSettings);
+  } catch (error) {
+    console.log(error);
   }
 
-  await Exercise.insertMany(generatedExercises);
-
-  res.send("Es wurden erfolgreich 50 zufällige Aufgaben erstellt.");
+  res.status(201).send("Einstellungen wurden erfolgreich gespeichert.");
 });
+
+// ------------------------------ PRODUCTION-ROUOTEN --------------------------
 
 // DELETE: Löscht alle Aufgaben aus der 'Exercises'-Collection
 app.delete("/delete/exercises", async (req, res) => {
@@ -186,6 +163,7 @@ app.delete("/delete/exercises", async (req, res) => {
   return res.send("Alle Aufgaben erfolgreich gelöscht");
 });
 
+// DELETE: Löscht alle Listen aus der 'ExerciseLists'-Collection
 app.delete("/delete/lists", async (req, res) => {
   await ExerciseList.deleteMany();
 
@@ -199,71 +177,82 @@ app.get("/lists", async (req, res) => {
   res.status(200).json(lists);
 });
 
-// POST-REQUEST: Sendet erstellte Aufgabe an die Datenbank
-app.post("/add/exercise", async (req, res) => {
-  let dataToSave = [];
-  let operationBackend = "";
-  const data = req.body;
-
-  for (const currentExercise of data) {
-    const numberOne = currentExercise.numberOne;
-    const numberTwo = currentExercise.numberTwo;
-    const operation = currentExercise.operation;
-    let result;
-
-    // Wenn bei einer Aufgabe eine Nummer fehlt
-    if (!numberOne || !numberTwo) {
-      return res
-        .status(400)
-        .send("Bei mindestens einer Aufgabe fehlt mindestens eine Nummer.");
-    }
-
-    // Wenn die Rechenoperation nicht +, -, * oder / ist
-    if (!operationenSymbols.includes(operation)) {
-      return res
-        .status(400)
-        .send("Mindestens eine Aufgabe enthält eine ungültige Operation");
-    }
-
-    switch (operation) {
-      case "+":
-        result = numberOne + numberTwo;
-        operationBackend = "addition";
-        break;
-      case "-":
-        result = numberOne - numberTwo;
-        operationBackend = "subtraction";
-        break;
-      case "*":
-        result = numberOne * numberTwo;
-        operationBackend = "multiplication";
-        break;
-      case "/":
-        result = numberOne / numberTwo;
-        operationBackend = "division";
-        break;
-    }
-
-    dataToSave.push({
-      numberOne,
-      numberTwo,
-      operation: operationBackend,
-      result,
-    });
-  }
-
-  await Exercise.insertMany(dataToSave);
-
-  res.status(201).send("Aufgaben wurden erfolgreich gespeichert");
-});
-
 function getRandomNumBetweenNumbers(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function getRandomExercisesFromOperation(operation, length) {
-  let generatedExercises = [];
-  for (let i = 1; i <= length; i++) {
+async function getSettingsObject() {
+  const dbResponse = await Settings.find();
+  const settings = dbResponse[0];
+  return settings;
+}
+
+function getRandomExercisesFromOperation(
+  operation,
+  length,
+  rangeFrom,
+  rangeTo
+) {
+  let generatedExercises = {
+    data: [],
+  };
+
+  for (let i = 0; i < length; i++) {
+    let numberOne;
+    let numberTwo;
+    let result;
+
+    switch (operation) {
+      case "addition":
+        numberOne = getRandomNumBetweenNumbers(1, rangeFrom);
+        numberTwo = getRandomNumBetweenNumbers(
+          rangeFrom - numberOne,
+          rangeTo - numberOne
+        );
+        result = numberOne + numberTwo;
+        break;
+      case "subtraction":
+        numberOne = getRandomNumBetweenNumbers(rangeTo, rangeTo * 2);
+        numberTwo = getRandomNumBetweenNumbers(
+          numberOne - rangeTo,
+          numberOne - rangeFrom
+        );
+        result = numberOne - numberTwo;
+        break;
+      case "multiplication":
+        numberOne = getRandomNumBetweenNumbers(2, rangeTo / 2);
+        numberTwo = getRandomNumBetweenNumbers(
+          Math.ceil(rangeFrom / numberOne),
+          Math.floor(rangeTo / numberOne)
+        );
+        result = numberOne * numberTwo;
+        break;
+      case "division":
+        numberOne = getRandomNumBetweenNumbers(
+          rangeFrom * 2,
+          rangeFrom * rangeTo
+        );
+        numberTwo = getRandomNumBetweenNumbers(
+          numberOne / rangeTo,
+          numberOne / rangeFrom
+        );
+        result = numberOne / numberTwo;
+    }
+
+    generatedExercises.data.push({
+      _id: v4(),
+      numberOne,
+      numberTwo,
+      result,
+      operation,
+    });
+  }
+
+  return generatedExercises;
+}
+
+/* 
+for (let i = 1; i <= length; i++) {
     const numberOne =
       operation === "multiplication"
         ? getRandomNumBetweenNumbers(1, 10)
@@ -296,5 +285,5 @@ function getRandomExercisesFromOperation(operation, length) {
       result,
     });
   }
-  return generatedExercises;
-}
+
+*/
