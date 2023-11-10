@@ -8,6 +8,7 @@ const PORT = 3000;
 
 const Exercise = require("./model/exercise");
 const ExerciseList = require("./model/exerciseList");
+const Settings = require('./model/settings');
 
 const operationenStrings = [
   "addition",
