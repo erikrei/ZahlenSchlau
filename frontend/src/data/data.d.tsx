@@ -1,5 +1,6 @@
 import { TSidebarLink } from "../types/types.d";
 import { FaCirclePlus, FaListUl } from "react-icons/fa6";
+import { FiSettings } from "react-icons/fi";
 import { TLinkInformation } from "../types/types.d";
 import { TCardInformation } from "../types/types.d";
 import { TSidebarDescription } from "../types/types.d";
@@ -14,6 +15,11 @@ export const sidebarLinks: TSidebarLink[] = [
     linkId: 2,
     name: "Aufgabenlisten",
     icon: <FaListUl />,
+  },
+  {
+    linkId: 3,
+    name: "Einstellungen",
+    icon: <FiSettings />,
   },
 ];
 
@@ -33,6 +39,10 @@ export const linkDescriptions: TLinkInformation[] = [
     Herausforderungen im Blick behalten kannst. Jetzt kannst du gleich
     loslegen, all deine mathematischen Herausforderungen zu organisieren und
     deine eigene Sammlung von mathematischen Problemen zu erstellen.`,
+  },
+  {
+    name: "Einstellungen",
+    description: `In diesem Bereich kann die Reichweite der Ergebnisse der Aufgaben eingestellt werden. Zusätzlich kannst du entscheiden, ob das visuelle Lernen aktiviert werden soll.`,
   },
 ];
 

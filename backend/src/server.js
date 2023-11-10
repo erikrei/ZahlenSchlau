@@ -139,6 +139,12 @@ app.get("/exercises/list", async (req, res) => {
   res.json(list.data);
 });
 
+app.get('/settings', async(req, res) => {
+  res.status(200).json(
+    await getSettingsObject()
+  )
+})
+
 app.put("/settings", async (req, res) => {
   const newSettings = req.body;
 

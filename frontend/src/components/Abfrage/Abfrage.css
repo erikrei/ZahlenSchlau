@@ -45,33 +45,12 @@ header > a:hover {
     margin-left: 1rem;
 }
 
-header > section.header-information-container {
+header {
     display: flex;
     gap: 1rem;
 }
 
-header > section.header-information-container > div.header-option-container {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-}
-
-header > section.header-information-container > div.header-option-container > input[type="checkbox"] {
-    scale: 1.2;
-}
-
-input[type="checkbox"]:disabled {
-    cursor: not-allowed;
-}
-
-header > section.header-information-container > div.header-option-container > svg {
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-header > section.header-information-container > h1 {
+header > h1 {
     color: var(--primary-color);
     padding: 0 2rem;
     border-radius: 0.5rem;
@@ -81,7 +60,7 @@ header > section.header-information-container > h1 {
     gap: 1rem;
 }
 
-header > section.header-information-container > h1 > span {
+header > h1 > span {
     font-size: 1rem;
     background-color: var(--primary-color);
     color: var(--secondary-color);
@@ -293,9 +272,4 @@ div.statistik-button-container > button:hover {
 
 div.statistik-button-container > a:hover {
     background-color: rgb(174, 4, 4);
-}
-
-div.visual-answer-container {
-    display: flex;
-    flex-wrap: wrap;
 }

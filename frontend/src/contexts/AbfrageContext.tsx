@@ -1,7 +1,7 @@
 import React from "react";
+import axios from "axios";
 
 import { TClickedExercise } from "../types/types.d";
-import { TExerciseData } from "../types/types.d";
 
 type TAbfrageContext = {
   exercisesHistory: TClickedExercise[];
@@ -21,6 +21,12 @@ export default function AbfrageProvider({
     TClickedExercise[]
   >([]);
   const [visualLearning, setVisualLearning] = React.useState(false);
+
+  React.useEffect(() => {
+    axios
+      .get("http://localhost:3000/settings")
+      .then(({ data }) => setVisualLearning(data.visualLearning));
+  }, []);
 
   return (
     <AbfrageContext.Provider
