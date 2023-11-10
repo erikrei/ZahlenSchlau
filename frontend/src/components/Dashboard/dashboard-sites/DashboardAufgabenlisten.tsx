@@ -1,5 +1,4 @@
 import React from "react";
-import "./DashboardAufgabenlisten.css";
 import { Link } from "react-router-dom";
 
 import { useLoaderData } from "react-router-dom";

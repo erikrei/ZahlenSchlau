@@ -32,6 +32,11 @@ export type TExerciseData = {
   operation: string;
 };
 
+export type TExerciseDataWithSettings = {
+  data: TExerciseData[],
+  visualLearning: boolean
+}
+
 export type TClickedExercise = TExerciseData & {
   answer: number;
 };
@@ -47,3 +52,9 @@ export type TSidebarDescription = {
   operation: string;
   description: string;
 };
+
+export type TSettings = {
+  visualLearning: boolean;
+  resultRangeFrom: number;
+  resultRangeTo: number;
+}

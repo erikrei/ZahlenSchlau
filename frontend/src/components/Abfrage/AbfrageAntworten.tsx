@@ -20,19 +20,9 @@ export default function AbfrageAntworten({
   currentExercise,
 }: TAbfrageAntwortenProps) {
   // Brauche noch richtige Antwort für Überprüfung
-  const {
-    exercisesHistory,
-    setExercisesHistory,
-    visualLearning,
-    setVisualLearning,
-  } = useAbfrageContext();
+  const { exercisesHistory, setExercisesHistory, visualLearning } =
+    useAbfrageContext();
   const [renderFeedback, setRenderFeedback] = React.useState(false);
-
-  React.useEffect(() => {
-    if (visualLearning && currentExercise.result > 20) {
-      setVisualLearning(false);
-    }
-  }, [visualLearning, currentExercise]);
 
   const correctId = answers.find(
     (answer) => answer.answerNumber === currentExercise.result
@@ -48,7 +38,7 @@ export default function AbfrageAntworten({
 
     let clickedNumber: number;
 
-    if (visualLearning) {
+    if (visualLearning && currentExercise.result <= 20) {
       clickedNumber = target.childNodes.length;
     } else {
       clickedNumber = Number(target.innerText);
@@ -92,7 +82,9 @@ export default function AbfrageAntworten({
           disabled={renderFeedback}
           onClick={(event) => handleAnswerClick(event, answer._id)}
         >
-          {visualLearning
+          {visualLearning &&
+          currentExercise.result >= 0 &&
+          currentExercise.result <= 20
             ? Array(answer.answerNumber)
                 .fill("")
                 .map((item) => <AiFillBug key={uuidv4()} />)

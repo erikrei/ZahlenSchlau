@@ -12,7 +12,7 @@ export default function ActiveLinkProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [activeLink, setActiveLink] = React.useState("Grundrechenarten");
+  const [activeLink, setActiveLink] = React.useState("Einstellungen");
 
   return (
     <ActiveLinkContext.Provider value={{ activeLink, setActiveLink }}>

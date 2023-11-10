@@ -6,6 +6,7 @@ import { useActiveLinkContext } from "../../contexts/ActiveLinkContext";
 
 import DashboardGrundrechenarten from "./dashboard-sites/DashboardGrundrechenarten";
 import DashboardAufgabenlisten from "./dashboard-sites/DashboardAufgabenlisten";
+import DashboardSettings from "./dashboard-sites/DashboardSettings";
 
 export default function DashboardMain() {
   const { activeLink } = useActiveLinkContext();
@@ -25,6 +26,7 @@ export default function DashboardMain() {
       </section>
       {activeLink === "Grundrechenarten" && <DashboardGrundrechenarten />}
       {activeLink === "Aufgabenlisten" && <DashboardAufgabenlisten />}
+      {activeLink === "Einstellungen" && <DashboardSettings />}
     </main>
   );
 }
