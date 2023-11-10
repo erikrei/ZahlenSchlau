@@ -11,3 +11,4 @@ const SettingsSchema = new mongoose.Schema({
 const model = mongoose.model('SettingsSchema', SettingsSchema);
 
 module.exports = model;
+
