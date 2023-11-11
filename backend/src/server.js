@@ -4,9 +4,7 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
 const PORT = 3000;
-// const PORT = 4200;
 
-const Exercise = require("./model/exercise");
 const ExerciseList = require("./model/exerciseList");
 const Settings = require("./model/settings");
 
@@ -32,23 +30,30 @@ app.use(function (req, res, next) {
   next();
 });
 
-// app.use(function (req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//   );
-//   next();
-// });
-
 // Stellt Verbindung zur Datenbank auf
 mongoose
   .connect("mongodb://admin:12345@db:27017/exercises-db?authSource=admin")
-  .then(() => console.log("Verbunden mit MongoDB-Datenbank"))
+  .then(async () => {
+    console.log("Verbunden mit MongoDB-Datenbank");
+    if ((await getSettingsObject()) === undefined) {
+      await Settings.create({
+        visualLearning: false,
+        resultRangeFrom: 10,
+        resultRangeTo: 30,
+      });
+    }
+  })
   .catch((error) => console.log(error));
 
 app.listen(PORT, () => {
   console.log(`Server läuft auf Port ${PORT}`);
+});
+
+// GET: Test fürs Erhalten aller Aufgabenlisten
+app.get("/lists", async (req, res) => {
+  const lists = await ExerciseList.find();
+
+  res.status(200).json(lists);
 });
 
 // POST: Test für Erstellung einer Aufgabenliste
@@ -107,13 +112,14 @@ app.post("/create/list", async (req, res) => {
   }
 });
 
-// GET-REQUEST: Erhält alle Aufgaben von der Datenbank in der 'Exercises'-Collection
+// GET-REQUEST: Generiert je nach gegebener Anzahl und gegebenen Einstellungen zufällige Aufgaben
 app.get("/exercises/random", async (req, res) => {
   let exercises;
 
   const operation = req.query.type;
 
-  const { resultRangeFrom, resultRangeTo, visualLearning } = await getSettingsObject();
+  const { resultRangeFrom, resultRangeTo, visualLearning } =
+    await getSettingsObject();
 
   if (operation && operationenStrings.indexOf(operation) !== -1) {
     // return 20 zufällige Aufgaben von gegebener Operation
@@ -139,11 +145,9 @@ app.get("/exercises/list", async (req, res) => {
   res.json(list.data);
 });
 
-app.get('/settings', async(req, res) => {
-  res.status(200).json(
-    await getSettingsObject()
-  )
-})
+app.get("/settings", async (req, res) => {
+  res.status(200).json(await getSettingsObject());
+});
 
 app.put("/settings", async (req, res) => {
   const newSettings = req.body;
@@ -162,25 +166,11 @@ app.put("/settings", async (req, res) => {
 
 // ------------------------------ PRODUCTION-ROUOTEN --------------------------
 
-// DELETE: Löscht alle Aufgaben aus der 'Exercises'-Collection
-app.delete("/delete/exercises", async (req, res) => {
-  await Exercise.deleteMany();
-
-  return res.send("Alle Aufgaben erfolgreich gelöscht");
-});
-
 // DELETE: Löscht alle Listen aus der 'ExerciseLists'-Collection
 app.delete("/delete/lists", async (req, res) => {
   await ExerciseList.deleteMany();
 
   res.send("Alle Listen erfolgreich gelöscht.");
-});
-
-// GET: Test fürs Erhalten aller Aufgabenlisten
-app.get("/lists", async (req, res) => {
-  const lists = await ExerciseList.find();
-
-  res.status(200).json(lists);
 });
 
 function getRandomNumBetweenNumbers(min, max) {
@@ -256,40 +246,3 @@ function getRandomExercisesFromOperation(
 
   return generatedExercises;
 }
-
-/* 
-for (let i = 1; i <= length; i++) {
-    const numberOne =
-      operation === "multiplication"
-        ? getRandomNumBetweenNumbers(1, 10)
-        : getRandomNumBetweenNumbers(1, 30);
-    const numberTwo =
-      operation === "multiplication"
-        ? getRandomNumBetweenNumbers(1, 10)
-        : getRandomNumBetweenNumbers(1, 30);
-    let result;
-    switch (operation) {
-      case "addition":
-        result = numberOne + numberTwo;
-        break;
-      case "subtraction":
-        result = numberOne - numberTwo;
-        break;
-      case "multiplication":
-        result = numberOne * numberTwo;
-        break;
-      case "division":
-        result =
-          numberOne > numberTwo ? numberOne / numberTwo : numberTwo / numberOne;
-        result = Number(result.toFixed(2));
-    }
-    generatedExercises.push({
-      _id: v4(),
-      numberOne,
-      numberTwo,
-      operation,
-      result,
-    });
-  }
-
-*/
