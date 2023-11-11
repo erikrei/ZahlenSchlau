@@ -23,7 +23,7 @@ services:
     working_dir: /backend
     volumes:
       - ./backend:/backend
-    command: sh -c "npm install & npm start"
+    command: sh -c "npm install && npm start"
     depends_on:
       - db
   db:
