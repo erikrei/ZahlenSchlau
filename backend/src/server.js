@@ -138,11 +138,17 @@ app.get("/exercises/random", async (req, res) => {
 
 app.get("/exercises/list", async (req, res) => {
   const listName = req.query.listName;
+
   const list = await ExerciseList.findOne({
     listName,
   });
 
-  res.json(list.data);
+  const settings = await getSettingsObject();
+
+  res.json({
+    data: list.data,
+    visualLearning: settings.visualLearning
+  });
 });
 
 app.get("/settings", async (req, res) => {
