@@ -285,6 +285,10 @@ section.dashboard-settings-container > span.success {
     background-color: green;
 }
 
+section.dashboard-settings-container > span.error {
+    background-color: red;
+}
+
 form.settings-form {
     display: flex;
     flex-direction: column;
@@ -304,6 +308,11 @@ form.settings-form > button {
 form.settings-form > button:hover {
     background-color: var(--primary-color-dark);
     cursor: pointer;
+}
+
+form.settings-form > button:disabled {
+    background-color: var(--disabled-button-color);
+    cursor: not-allowed;
 }
 
 form.settings-form > div.input-container {

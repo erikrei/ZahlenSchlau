@@ -19,7 +19,41 @@ export default function DashboardSettings() {
     const numberValue = Number(value);
 
     // Wenn numberValue von input[type="number"] kommt und nicht input[type="checkbox"]
-    if (numberValue) {
+    if (numberValue && settings) {
+      let isErrorTrue: boolean = false;
+      if (name === "resultRangeFrom") {
+        isErrorTrue = checkError(numberValue, settings.resultRangeTo);
+      } else {
+        isErrorTrue = checkError(settings.resultRangeFrom, numberValue);
+      }
+
+      if (isErrorTrue) {
+        setFeedback({
+          ...feedback,
+          status: "error",
+          message: "Reichweite von darf nicht größer als Reichweite bis sein",
+          showFeedback: true,
+        });
+      } else {
+        setFeedback({
+          ...feedback,
+          status: "",
+          message: "",
+          showFeedback: false,
+        });
+      }
+      setSettings({
+        ...settings,
+        [name]: numberValue,
+      });
+    } else if (!numberValue && name !== 'visualLearning') {
+      setFeedback({
+        ...feedback,
+        status: "error",
+        message:
+          "Reichweite von und Reichweite bis müssen einen Wert größer als 0 enthalten.",
+        showFeedback: true,
+      });
       settings &&
         setSettings({
           ...settings,
@@ -60,6 +94,10 @@ export default function DashboardSettings() {
       })
     );
   }, []);
+
+  function checkError(numberOne: number, numberTwo: number): boolean {
+    return numberOne >= numberTwo;
+  }
 
   return (
     <section className="dashboard-settings-container">
@@ -129,7 +167,11 @@ export default function DashboardSettings() {
             </label>
           </div>
         </div>
-        <button disabled={feedback.status === "sending"}>
+        <button
+          disabled={
+            feedback.status === "sending" || feedback.status === "error"
+          }
+        >
           Einstellungen speichern
         </button>
       </form>
