@@ -15,6 +15,33 @@ export default function AbfrageSidebar({
 }: TSidebarProps) {
   const { exercisesHistory } = useAbfrageContext();
 
+  function setHistoryHeight(): string {
+    let historyMaxHeight = "";
+
+    const screenHeight = document
+      .querySelector("body")
+      ?.getBoundingClientRect().height;
+
+    const header = document.querySelector("header");
+    const headerHeight = header?.getBoundingClientRect().height;
+
+    const sidebarDescription = document.querySelector(
+      "section.sidebar-beschreibung"
+    );
+    const sidebarDescriptionHeight =
+      sidebarDescription?.getBoundingClientRect().height;
+
+    if (screenHeight && headerHeight) {
+      sidebarDescriptionHeight
+        ? (historyMaxHeight = `${
+            screenHeight - headerHeight - sidebarDescriptionHeight
+          }px`)
+        : (historyMaxHeight = `${screenHeight - headerHeight}px`);
+    }
+
+    return historyMaxHeight;
+  }
+
   return (
     <aside className="abfrage-sidebar">
       {description && (
@@ -23,7 +50,10 @@ export default function AbfrageSidebar({
           <p>{description}</p>
         </section>
       )}
-      <section className="abfrage-history">
+      <section
+        className="abfrage-history"
+        style={{ maxHeight: setHistoryHeight() }}
+      >
         <h2>Aufgabenverlauf</h2>
         {exercisesHistory.length === 0 && (
           <p>Noch keine Aufgabe beantwortet.</p>
