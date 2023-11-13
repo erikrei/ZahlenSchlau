@@ -1,15 +1,3 @@
-#visual-learning-info {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    font-size: 1.1rem;
-    font-variant: normal;
-    font-weight: bold;
-}
-
-#visual-learning-info:hover {
-    opacity: 1;
-}
-
 div.abfrage-container {
     display: grid;
     width: 100dvw;
@@ -97,7 +85,6 @@ aside.abfrage-sidebar > section.sidebar-beschreibung {
 
 aside.abfrage-sidebar > section.abfrage-history {
     overflow-y: auto;
-    max-height: 30rem;
 }
 
 section.abfrage-history {
@@ -116,7 +103,7 @@ section.abfrage-history > div.history-exercise {
 
 section.abfrage-history > div.history-exercise > p {
     height: 100%;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
