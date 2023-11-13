@@ -211,6 +211,10 @@ function getRandomExercisesFromOperation(
           rangeFrom - numberOne,
           rangeTo - numberOne
         );
+        if (numberOne === rangeFrom && numberTwo === 0) {
+          numberOne = rangeFrom - 1;
+          numberTwo = 1;
+        }
         result = numberOne + numberTwo;
         break;
       case "subtraction":
@@ -219,6 +223,10 @@ function getRandomExercisesFromOperation(
           numberOne - rangeTo,
           numberOne - rangeFrom
         );
+        if (numberOne === rangeTo && numberTwo === 0) {
+          numberOne = rangeTo + 1;
+          numberTwo = 1;
+        }
         result = numberOne - numberTwo;
         break;
       case "multiplication":
