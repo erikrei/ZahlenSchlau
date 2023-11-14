@@ -147,8 +147,92 @@ app.get("/exercises/list", async (req, res) => {
 
   res.json({
     data: list.data,
-    visualLearning: settings.visualLearning
+    visualLearning: settings.visualLearning,
   });
+});
+
+app.delete("/list", async (req, res) => {
+  const { listName } = req.body;
+
+  try {
+    const response = await ExerciseList.findOneAndDelete({ listName });
+
+    if (!response) {
+      return res
+        .status(404)
+        .send(
+          `Aufgabenliste ${listName} konnte nicht gelöscht werden, da sie nicht existiert.`
+        );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.status(200).send(`Aufgabenliste ${listName} erfolgreich gelöscht.`);
+});
+
+app.put("/list/listname", async (req, res) => {
+  const { listName, newListName } = req.body;
+
+  let response;
+
+  try {
+    response = await ExerciseList.findOneAndUpdate(
+      {
+        listName,
+      },
+      {
+        listName: newListName,
+      }
+    );
+
+    if (!response) {
+      return res
+        .status(404)
+        .send(
+          `Aufgabenliste ${listName} konnte nicht umbenannt werden, da sie nicht existiert.`
+        );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.status(200).json({
+    listName: newListName,
+    data: response.data,
+  });
+});
+
+app.put("/list/exercises", async (req, res) => {
+  const { listName, data } = req.body;
+
+  let response;
+
+  try {
+    response = await ExerciseList.findOneAndUpdate(
+      {
+        listName,
+      },
+      {
+        data,
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!response) {
+      return res
+        .status(404)
+        .send(
+          `Aufgabenliste ${listName} konnte nicht modifiziert werden, da sie nicht existiert.`
+        );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.status(200).send(response);
 });
 
 app.get("/settings", async (req, res) => {
@@ -171,13 +255,6 @@ app.put("/settings", async (req, res) => {
 });
 
 // ------------------------------ PRODUCTION-ROUOTEN --------------------------
-
-// DELETE: Löscht alle Listen aus der 'ExerciseLists'-Collection
-app.delete("/delete/lists", async (req, res) => {
-  await ExerciseList.deleteMany();
-
-  res.send("Alle Listen erfolgreich gelöscht.");
-});
 
 function getRandomNumBetweenNumbers(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);

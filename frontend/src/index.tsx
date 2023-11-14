@@ -28,10 +28,7 @@ const router = createBrowserRouter([
   {
     path: "/abfrage/:type",
     element: <Abfrage />,
-    // erster loader wenn mit Docker gestartet
     loader: async ({ params, request }) => {
-      // ["addition", "subtraction", "multiplication", "division"]
-      // list
       const abfrageType = params.type || "";
       const url = new URL(request.url);
       
