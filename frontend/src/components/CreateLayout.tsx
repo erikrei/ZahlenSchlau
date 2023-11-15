@@ -1,18 +1,26 @@
 import React from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams, useSearchParams } from "react-router-dom";
 
 import DashboardBackButton from "./util/DashboardBackButton";
 
 export default function CreateLayout() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const listName = searchParams && searchParams.get("edit");
   const { createType } = useParams();
 
   return (
     <div className="create-layout-container">
       <header>
         <DashboardBackButton />
-        <h1>
-          Erstellen <span>{createType}</span>
-        </h1>
+        {listName ? (
+          <h1>
+            {listName} <span>Bearbeiten</span>
+          </h1>
+        ) : (
+          <h1>
+            Aufgabenliste <span>erstellen</span>
+          </h1>
+        )}
       </header>
       <Outlet />
     </div>

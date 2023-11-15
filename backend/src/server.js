@@ -49,53 +49,25 @@ app.listen(PORT, () => {
   console.log(`Server läuft auf Port ${PORT}`);
 });
 
-// GET: Test fürs Erhalten aller Aufgabenlisten
 app.get("/lists", async (req, res) => {
   const lists = await ExerciseList.find();
 
   res.status(200).json(lists);
 });
 
+app.get("/list/:listName", async (req, res) => {
+  const listName = req.params.listName;
+
+  const list = await ExerciseList.findOne({ listName });
+
+  res.status(200).json(list.data);
+});
+
 // POST: Test für Erstellung einer Aufgabenliste
 app.post("/create/list", async (req, res) => {
-  const newData = {};
-  newData.listName = req.body.listName;
+  const newData = createNewListData(req.body.listName, req.body.data);
 
-  const dataArray = [];
-  const data = req.body.data;
-
-  for (const currentExercise of data) {
-    const { numberOne, numberTwo, operation } = currentExercise;
-    let result;
-    let newOperation;
-
-    switch (operation) {
-      case "+":
-        result = numberOne + numberTwo;
-        newOperation = "addition";
-        break;
-      case "-":
-        result = numberOne - numberTwo;
-        newOperation = "subtraction";
-        break;
-      case "*":
-        result = numberOne * numberTwo;
-        newOperation = "multiplication";
-        break;
-      case "/":
-        result = numberOne / numberTwo;
-        newOperation = "division";
-    }
-
-    dataArray.push({
-      numberOne,
-      numberTwo,
-      operation: newOperation,
-      result,
-    });
-  }
-
-  newData.data = dataArray;
+  console.log(newData);
 
   try {
     const dbResult = await ExerciseList.create(newData);
@@ -172,7 +144,7 @@ app.delete("/list", async (req, res) => {
 });
 
 app.put("/list/listname", async (req, res) => {
-  const { listName, newListName } = req.body;
+  const { listName, newListName } = req.body.data;
 
   let response;
 
@@ -183,6 +155,9 @@ app.put("/list/listname", async (req, res) => {
       },
       {
         listName: newListName,
+      },
+      {
+        new: true,
       }
     );
 
@@ -194,17 +169,24 @@ app.put("/list/listname", async (req, res) => {
         );
     }
   } catch (error) {
-    console.log(error);
+    const errorCode = error.code;
+    if (errorCode === 11000) {
+      return res
+        .status(409)
+        .send(
+          `Eine andere Aufgabenliste enthält bereits den Namen ${newListName}.`
+        );
+    }
   }
 
-  res.status(200).json({
-    listName: newListName,
-    data: response.data,
-  });
+  res.status(200).json(response);
 });
 
 app.put("/list/exercises", async (req, res) => {
-  const { listName, data } = req.body;
+  const { listName, data } = req.body.data;
+  const newData = createNewListData(listName, data);
+
+  console.log(newData);
 
   let response;
 
@@ -214,7 +196,7 @@ app.put("/list/exercises", async (req, res) => {
         listName,
       },
       {
-        data,
+        data: newData.data,
       },
       {
         new: true,
@@ -336,4 +318,46 @@ function getRandomExercisesFromOperation(
   }
 
   return generatedExercises;
+}
+
+function createNewListData(listName, data) {
+  const newData = {};
+  newData.listName = listName;
+
+  const dataArray = [];
+
+  for (const currentExercise of data) {
+    const { numberOne, numberTwo, operation } = currentExercise;
+    let result;
+    let newOperation;
+
+    switch (operation) {
+      case "+":
+        result = numberOne + numberTwo;
+        newOperation = "addition";
+        break;
+      case "-":
+        result = numberOne - numberTwo;
+        newOperation = "subtraction";
+        break;
+      case "*":
+        result = numberOne * numberTwo;
+        newOperation = "multiplication";
+        break;
+      case "/":
+        result = numberOne / numberTwo;
+        newOperation = "division";
+    }
+
+    dataArray.push({
+      numberOne,
+      numberTwo,
+      operation: newOperation,
+      result,
+    });
+  }
+
+  newData.data = dataArray;
+
+  return newData;
 }

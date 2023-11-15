@@ -32,6 +32,12 @@ export type TExerciseData = {
   operation: string;
 };
 
+export type TExerciseList = {
+  _id: string;
+  listName: string;
+  data: TExerciseData[];
+};
+
 export type TExerciseDataWithSettings = {
   data: TExerciseData[],
   visualLearning: boolean

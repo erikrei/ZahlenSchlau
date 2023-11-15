@@ -238,7 +238,16 @@ section.dashboard-lists-container > h2 {
     width: 100%;
     font-size: 2rem;
     border-top: 2px solid var(--primary-color);
-    padding-top: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: 0.5rem;
+    text-align: center;
+    padding: 0.5rem 0rem;
+}
+
+section.dashboard-lists-container > p {
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 div.dashboard-lists {
@@ -256,9 +265,44 @@ div.dashboard-lists > div {
     border-radius: 0.5rem;
     flex: 0 0 15rem;
     display: flex;
-    align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    word-break: break-word;
+}
+
+div.list-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+div.list-header > div.list-header-options {
+    padding: 0rem 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.list-header-options svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+div.list-header-options a {
+    color: var(--secondary-color);
+}
+
+div.list-header-options svg:hover {
+    cursor: pointer;
+}
+
+div.list-header-options svg.svg-hover-red:hover {
+    color: red;
+}
+
+div.list-header-options svg:not(.svg-hover-red):hover,
+div.list-header-options a:hover {
+    color: var(--primary-color);
 }
 
 div.dashboard-lists > div > a {
@@ -271,6 +315,7 @@ div.dashboard-lists > div > a {
     color: var(--primary-black);
     font-size: 0.9rem;
     transition: 0.5s background-color;
+    align-self: center;
 }
 
 div.dashboard-lists > div > a:hover {
