@@ -8,7 +8,7 @@ div.create-layout-container {
 
 div.create-main-container {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 15% 1fr;
 }
 
 aside.create-sidebar {
@@ -78,6 +78,15 @@ main.create-main {
 
 main.create-main > h2 {
     margin-bottom: 0.5rem;
+}
+
+main.create-main > h2 > span {
+    background-color: var(--secondary-color);
+    padding: .25rem .75rem;
+    color: var(--primary-color);
+    margin: 0 .5rem;
+    border-radius: .5rem;
+    font-variant: small-caps;
 }
 
 main.create-main > form {

@@ -1,20 +1,40 @@
 import React from "react";
 import axios, { Axios, AxiosError } from "axios";
 
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { TCreatedExercise } from "../../types/types.d";
+import { TCreatedExercise, TExerciseData } from "../../types/types.d";
 
 import { useErstellteAufgabenContext } from "../../contexts/ErstellteAufgabenContext";
+import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";
 
 export default function CreateListForm() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const editListName = searchParams.get("edit");
+
   const [status, setStatus] = React.useState("normal");
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const { createdExercises, setCreatedExercises } =
     useErstellteAufgabenContext();
+
+  React.useEffect(() => {
+    if (editListName) {
+      axios
+        .get(`http://localhost:3000/list/${editListName}`)
+        .then(({ data }: { data: TExerciseData[] }) => {
+          const newDataWithSymbol = data.map((exercise) => {
+            return {
+              ...exercise,
+              operation: getOperationSymbol(exercise.operation),
+            };
+          });
+          setCreatedExercises(newDataWithSymbol);
+        });
+    }
+  }, []);
 
   const [exerciseInput, setExerciseInput] = React.useState<TCreatedExercise>({
     _id: uuidv4(),
@@ -94,10 +114,32 @@ export default function CreateListForm() {
       });
   }
 
+  function editData() {
+    setStatus("sending");
+    axios
+      .put("http://localhost:3000/list/exercises", {
+        data: {
+          listName: editListName,
+          data: createdExercises,
+        },
+      })
+      .then(({ data }) => {
+        setCreatedExercises([]);
+        setStatus("success");
+        setTimeout(() => {
+          setStatus("navigate");
+        }, 2000);
+      });
+  }
+
   return (
     <main className="create-main">
       {status === "navigate" && <Navigate to="/dashboard" />}
-      <h2>Aufgaben zur Liste hinzufügen</h2>
+      <h2>
+        Aufgaben zur Liste
+        {editListName && <span className="edit-list-name">{editListName}</span>}
+        hinzufügen
+      </h2>
       <form onSubmit={(event) => addExercise(event)}>
         <div className="form-label-container">
           <label htmlFor="numberOne" className="input-container">
@@ -148,14 +190,20 @@ export default function CreateListForm() {
               createdExercises.length === 0 ||
               (status !== "normal" && status !== "error")
             }
-            onClick={saveData}
+            onClick={editListName ? editData : saveData}
           >
-            Liste speichern
+            {editListName ? "Liste aktualisieren" : "Liste speichern"}
           </button>
         </div>
       </form>
       {status === "error" && <p className="form-error">{errorMessage}</p>}
-      {status === "success" && (
+      {status === "success" && editListName && (
+        <p className="form-feedback">
+          Die Liste {editListName} wurde erfolgreich modifiziert. Sie werden zum
+          Dashboard weitergeleitet...
+        </p>
+      )}
+      {status === "success" && !editListName && (
         <p className="form-feedback">
           Die Liste wurde erfolgreich erstellt. Sie werden zum Dashboard
           weitergeleitet...
