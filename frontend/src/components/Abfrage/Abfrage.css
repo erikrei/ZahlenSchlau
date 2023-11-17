@@ -183,6 +183,14 @@ button.answer-button:hover {
     background-color: var(--primary-color-dark);
 }
 
+button.answer-button > div.visual-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+}
+
 main.abfrage-statistik-container {
     padding: 1rem;
     background-color: var(--primary-color);
