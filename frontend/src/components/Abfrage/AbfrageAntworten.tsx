@@ -1,12 +1,10 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
-
-import { AiFillBug } from "react-icons/ai";
 
 import { TExerciseAnswers } from "../../helper-functions/getAbfrageAntworten";
 
 import { useAbfrageContext } from "../../contexts/AbfrageContext";
 import { TExerciseData } from "../../types/types.d";
+import AbfrageAntwortenVisual from "./AbfrageAntwortenVisual";
 
 type TAbfrageAntwortenProps = {
   answers: TExerciseAnswers[];
@@ -39,6 +37,7 @@ export default function AbfrageAntworten({
     let clickedNumber: number;
 
     if (visualLearning && currentExercise.result <= 20) {
+      console.log(target);
       clickedNumber = target.childNodes.length;
     } else {
       clickedNumber = Number(target.innerText);
@@ -67,8 +66,16 @@ export default function AbfrageAntworten({
     }, 2000);
   }
 
+  const abfrageHeader = document.querySelector('abfrage-main-header');
+  const abfrageHeaderHeight = abfrageHeader?.getBoundingClientRect().height;
+
   return (
-    <section className="abfrage-answers">
+    <section 
+      className="abfrage-answers"
+      style={{
+        height: `calc(100% - ${abfrageHeaderHeight}px)`
+      }}
+    >
       {answers.map((answer) => (
         <button
           key={answer._id}
@@ -84,11 +91,11 @@ export default function AbfrageAntworten({
         >
           {visualLearning &&
           currentExercise.result >= 0 &&
-          currentExercise.result <= 20
-            ? Array(answer.answerNumber)
-                .fill("")
-                .map((item) => <AiFillBug key={uuidv4()} />)
-            : answer.answerNumber}
+          currentExercise.result <= 20 ? (
+            <AbfrageAntwortenVisual answerNumber={answer.answerNumber} />
+          ) : (
+            answer.answerNumber
+          )}
         </button>
       ))}
     </section>
