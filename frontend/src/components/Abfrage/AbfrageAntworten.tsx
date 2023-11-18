@@ -30,15 +30,23 @@ export default function AbfrageAntworten({
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     _id: string
   ) {
-    const { target } = event;
+    let { target } = event;
 
     if (!(target instanceof HTMLElement)) return;
 
-    let clickedNumber: number;
+    let clickedNumber: number = 0;
 
     if (visualLearning && currentExercise.result <= 20) {
-      console.log(target);
-      clickedNumber = target.childNodes.length;
+      const clickedElementClasslist = target.classList;
+      if (clickedElementClasslist.contains("answer-button")) {
+        clickedNumber = target.querySelectorAll("svg").length;
+      } else {
+        const answerButton = target.parentElement?.parentElement;
+        if (answerButton) {
+          answerButton.classList.add("answer-wrong");
+          clickedNumber = answerButton.querySelectorAll("svg").length;
+        }
+      }
     } else {
       clickedNumber = Number(target.innerText);
     }
@@ -66,16 +74,8 @@ export default function AbfrageAntworten({
     }, 2000);
   }
 
-  const abfrageHeader = document.querySelector('abfrage-main-header');
-  const abfrageHeaderHeight = abfrageHeader?.getBoundingClientRect().height;
-
   return (
-    <section 
-      className="abfrage-answers"
-      style={{
-        height: `calc(100% - ${abfrageHeaderHeight}px)`
-      }}
-    >
+    <section className="abfrage-answers">
       {answers.map((answer) => (
         <button
           key={answer._id}
