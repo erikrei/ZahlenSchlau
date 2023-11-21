@@ -5,7 +5,7 @@ import { Navigate, useSearchParams } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { TCreatedExercise, TExerciseData } from "../../types/types.d";
+import { TCreatedExercise, TExerciseData } from "../../types";
 
 import { useErstellteAufgabenContext } from "../../contexts/ErstellteAufgabenContext";
 import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";

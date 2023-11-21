@@ -2,8 +2,8 @@ import React from "react";
 import { useParams, useLoaderData, useSearchParams } from "react-router-dom";
 import "./Abfrage.css";
 
-import { TExerciseData } from "../../types/types.d";
-import { TExerciseDataWithSettings } from "../../types/types.d";
+import { TExerciseData } from "../../types";
+import { TExerciseDataWithSettings } from "../../types";
 
 import { operationDescriptions } from "../../data/data.d";
 import { getHeaderOperationText } from "../../helper-functions/getHeaderOperationText";

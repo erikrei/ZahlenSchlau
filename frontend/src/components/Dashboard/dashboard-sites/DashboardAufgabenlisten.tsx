@@ -10,7 +10,7 @@ import { MdEdit } from "react-icons/md";
 
 import CreateListButton from "../../util/CreateListButton";
 
-import { TExerciseList } from "../../../types/types.d";
+import { TExerciseList } from "../../../types";
 
 export default function DashboardAufgabenlisten() {
   const [exerciseLists, setExerciseLists] = React.useState<

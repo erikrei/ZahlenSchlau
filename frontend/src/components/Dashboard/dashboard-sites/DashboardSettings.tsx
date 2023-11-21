@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { AiFillWarning } from "react-icons/ai";
 
-import { TSettings } from "../../../types/types.d";
+import { TSettings } from "../../../types";
 
 export default function DashboardSettings() {
   const [feedback, setFeedback] = React.useState({
@@ -14,57 +14,91 @@ export default function DashboardSettings() {
 
   const [settings, setSettings] = React.useState<TSettings | null>(null);
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { value, name, checked } = event.target;
-    const numberValue = Number(value);
+  console.log(settings);
 
-    // Wenn numberValue von input[type="number"] kommt und nicht input[type="checkbox"]
-    if (numberValue && settings) {
-      let isErrorTrue: boolean = false;
-      if (name === "resultRangeFrom") {
-        isErrorTrue = checkError(numberValue, settings.resultRangeTo);
-      } else {
-        isErrorTrue = checkError(settings.resultRangeFrom, numberValue);
-      }
+  function resetFeedback() {
+    setFeedback({
+      status: '',
+      message: '',
+      showFeedback: false
+    })
+  }
 
-      if (isErrorTrue) {
-        setFeedback({
-          ...feedback,
-          status: "error",
-          message: "Reichweite von darf nicht größer als Reichweite bis sein",
-          showFeedback: true,
-        });
-      } else {
-        setFeedback({
-          ...feedback,
-          status: "",
-          message: "",
-          showFeedback: false,
-        });
-      }
+  function handleVisualLearningChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const { checked } = event.target;
+
+    settings &&
       setSettings({
         ...settings,
-        [name]: numberValue,
+        visualLearning: checked,
       });
-    } else if (!numberValue && name !== 'visualLearning') {
+  }
+
+  function handleResultRangeFromChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    const numberValue: number = Number(value);
+
+    resetFeedback();
+
+    settings && setSettings({
+      ...settings,
+      resultRangeFrom: numberValue
+    })
+
+    if (settings && numberValue <= 0 ) {
       setFeedback({
-        ...feedback,
-        status: "error",
-        message:
-          "Reichweite von und Reichweite bis müssen einen Wert größer als 0 enthalten.",
+        message: 'Reichweite von darf nicht kleiner oder gleich 0 sein.',
         showFeedback: true,
-      });
-      settings &&
-        setSettings({
-          ...settings,
-          [name]: numberValue,
-        });
-    } else {
-      settings &&
-        setSettings({
-          ...settings,
-          [name]: checked,
-        });
+        status: 'error'
+      })
+    } else if (settings && numberValue >= settings.resultRangeTo) {
+      setFeedback({
+        message: 'Reichweite von muss kleiner als Reichweite bis sein.',
+        showFeedback: true,
+        status: 'error'
+      })
+    } 
+  }
+
+  function handleResultRangeToChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    const numberValue: number = Number(value);
+
+    resetFeedback();
+
+    settings && setSettings({
+      ...settings,
+      resultRangeTo: numberValue
+    })
+
+    if (settings && numberValue <= settings.resultRangeFrom) {
+      setFeedback({
+        message: 'Reichweite bis muss größer als Reichweite von sein.',
+        showFeedback: true,
+        status: 'error'
+      })
+    }
+  }
+
+  function handleDivisorChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    const numberValue: number = Number(value);
+
+    resetFeedback();
+
+    settings && setSettings({
+      ...settings,
+      divisor: numberValue
+    })
+
+    if (numberValue <= 1) {
+      setFeedback({
+        message: 'Divisor darf nicht kleiner oder gleich 1 sein.',
+        showFeedback: true,
+        status: 'error'
+      })
     }
   }
 
@@ -91,6 +125,7 @@ export default function DashboardSettings() {
         visualLearning: data.visualLearning,
         resultRangeFrom: data.resultRangeFrom,
         resultRangeTo: data.resultRangeTo,
+        divisor: data.divisor,
       })
     );
   }, []);
@@ -124,7 +159,7 @@ export default function DashboardSettings() {
             type="checkbox"
             name="visualLearning"
             checked={settings?.visualLearning || false}
-            onChange={(event) => handleChange(event)}
+            onChange={(event) => handleVisualLearningChange(event)}
           />
         </div>
         <div className="input-container">
@@ -152,7 +187,7 @@ export default function DashboardSettings() {
                 id="resultRangeFrom"
                 name="resultRangeFrom"
                 value={settings?.resultRangeFrom || ""}
-                onChange={(event) => handleChange(event)}
+                onChange={(event) => handleResultRangeFromChange(event)}
               />
             </label>
             <label htmlFor="resultRangeTo">
@@ -162,7 +197,30 @@ export default function DashboardSettings() {
                 id="resultRangeTo"
                 name="resultRangeTo"
                 value={settings?.resultRangeTo || ""}
-                onChange={(event) => handleChange(event)}
+                onChange={(event) => handleResultRangeToChange(event)}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input-description">
+            <h2>Divisor</h2>
+            <div className="input-container-description">
+              <p>
+                Mit dieser Einstellung kannst du bestimmen durch welche Zahl bei
+                der Division (geteilt rechnen) geteilt wird.
+              </p>
+            </div>
+          </div>
+          <div className="input-numberfields">
+            <label htmlFor="divisor">
+              Divisor
+              <input
+                type="number"
+                id="divisor"
+                name="divisor"
+                value={settings?.divisor || ""}
+                onChange={(event) => handleDivisorChange(event)}
               />
             </label>
           </div>

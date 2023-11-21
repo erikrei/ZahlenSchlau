@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TCreatedExercise } from "../types/types.d";
+import { TCreatedExercise } from "../types";
 
 type TErstellteAufgabenContext = {
   createdExercises: TCreatedExercise[];
