@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TExerciseData } from "../../types/types.d";
+import { TExerciseData } from "../../types";
 
 type TAbfrageHeaderProps = {
   operationSymbol?: string;

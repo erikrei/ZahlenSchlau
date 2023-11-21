@@ -40,6 +40,7 @@ mongoose
         visualLearning: false,
         resultRangeFrom: 10,
         resultRangeTo: 30,
+        divisor: 2,
       });
     }
   })
@@ -90,7 +91,7 @@ app.get("/exercises/random", async (req, res) => {
 
   const operation = req.query.type;
 
-  const { resultRangeFrom, resultRangeTo, visualLearning } =
+  const { resultRangeFrom, resultRangeTo, visualLearning, divisor } =
     await getSettingsObject();
 
   if (operation && operationenStrings.indexOf(operation) !== -1) {
@@ -99,7 +100,8 @@ app.get("/exercises/random", async (req, res) => {
       operation,
       20,
       resultRangeFrom,
-      resultRangeTo
+      resultRangeTo,
+      divisor
     );
   }
 
@@ -252,7 +254,8 @@ function getRandomExercisesFromOperation(
   operation,
   length,
   rangeFrom,
-  rangeTo
+  rangeTo,
+  divisor
 ) {
   let generatedExercises = {
     data: [],
@@ -267,7 +270,10 @@ function getRandomExercisesFromOperation(
       case "addition":
         numberOne = getRandomNumBetweenNumbers(1, (rangeFrom + rangeTo) / 2);
         if (numberOne < rangeFrom) {
-          numberTwo = getRandomNumBetweenNumbers(rangeFrom - numberOne, rangeTo - numberOne)
+          numberTwo = getRandomNumBetweenNumbers(
+            rangeFrom - numberOne,
+            rangeTo - numberOne
+          );
         } else numberTwo = getRandomNumBetweenNumbers(1, rangeTo - numberOne);
         result = numberOne + numberTwo;
         break;
@@ -292,14 +298,13 @@ function getRandomExercisesFromOperation(
         result = numberOne * numberTwo;
         break;
       case "division":
-        numberOne = getRandomNumBetweenNumbers(
-          rangeFrom * 2,
-          rangeFrom * rangeTo
-        );
-        numberTwo = getRandomNumBetweenNumbers(
-          numberOne / rangeTo,
-          numberOne / rangeFrom
-        );
+        while (numberOne % divisor !== 0) {
+          numberOne = getRandomNumBetweenNumbers(
+            rangeFrom * divisor,
+            rangeTo * divisor
+          );
+        }
+        numberTwo = divisor;
         result = numberOne / numberTwo;
     }
 

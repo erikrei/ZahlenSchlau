@@ -1,9 +1,9 @@
-import { TSidebarLink } from "../types/types.d";
+import { TSidebarLink } from "../types";
 import { FaCirclePlus, FaListUl } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
-import { TLinkInformation } from "../types/types.d";
-import { TCardInformation } from "../types/types.d";
-import { TSidebarDescription } from "../types/types.d";
+import { TLinkInformation } from "../types";
+import { TCardInformation } from "../types";
+import { TSidebarDescription } from "../types";
 
 export const sidebarLinks: TSidebarLink[] = [
   {

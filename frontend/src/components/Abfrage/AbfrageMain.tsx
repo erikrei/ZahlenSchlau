@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TExerciseData } from "../../types/types.d";
+import { TExerciseData } from "../../types";
 
 import { getAbfrageAntworten } from "../../helper-functions/getAbfrageAntworten";
 import { getOperationSymbol } from "../../helper-functions/getOperationSymbol";

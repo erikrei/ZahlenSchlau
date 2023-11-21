@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { TClickedExercise } from "../types/types.d";
+import { TClickedExercise } from "../types";
 
 type TAbfrageContext = {
   exercisesHistory: TClickedExercise[];

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const SettingsSchema = new mongoose.Schema({
     visualLearning: Boolean,
     resultRangeFrom: Number,
-    resultRangeTo: Number
+    resultRangeTo: Number,
+    divisor: Number
 }, {
     collection: 'Settings'
 })

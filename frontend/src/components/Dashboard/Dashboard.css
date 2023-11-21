@@ -147,20 +147,12 @@ div.card-container {
     box-shadow: 0.1rem 0.1rem 0.5rem var(--primary-black);
 }
 
-div.card-container.disabled:hover {
-    cursor: not-allowed;
-}
-
 div.card-container > img {
     width: 100%;
     max-height: 480px;
     border-radius: 1rem;
     filter: brightness(50%);
     object-fit: cover;
-}
-
-div.card-container.disabled > img {
-    filter: brightness(10%);
 }
 
 div.card-container > h2 {
@@ -376,6 +368,7 @@ form.settings-form > div.input-container {
     background-color: var(--primary-color);
     padding: 1rem;
     border-radius: 1rem;
+    gap: 1rem;
 }
 
 div.input-container > div.input-description {

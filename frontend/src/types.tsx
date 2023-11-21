@@ -63,4 +63,5 @@ export type TSettings = {
   visualLearning: boolean;
   resultRangeFrom: number;
   resultRangeTo: number;
+  divisor: number;
 }

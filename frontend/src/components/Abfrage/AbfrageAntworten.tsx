@@ -3,7 +3,7 @@ import React from "react";
 import { TExerciseAnswers } from "../../helper-functions/getAbfrageAntworten";
 
 import { useAbfrageContext } from "../../contexts/AbfrageContext";
-import { TExerciseData } from "../../types/types.d";
+import { TExerciseData } from "../../types";
 import AbfrageAntwortenVisual from "./AbfrageAntwortenVisual";
 
 type TAbfrageAntwortenProps = {

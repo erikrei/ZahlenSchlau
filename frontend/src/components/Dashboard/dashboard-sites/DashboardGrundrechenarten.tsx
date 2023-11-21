@@ -15,25 +15,12 @@ export default function DashboardGrundrechenarten() {
   return (
     <section className="dashboard-content-container">
       {cardItems.map((card) => (
-        <div
-          key={card.id}
-          className={
-            card.operation !== "Division"
-              ? "card-container"
-              : "card-container disabled"
-          }
-        >
+        <div key={card.id} className="card-container">
           <h2>{card.operation}</h2>
           <img src={card.img.path} alt={card.img.alt} />
-          {card.operation !== "Division" ? (
-            <Link to={`/abfrage${card.routerPath}?query=random`}>
-              Zur Zufallsabfrage
-            </Link>
-          ) : (
-            <p className="disabled-info">
-              {card.operation} derzeit nicht verfügbar.
-            </p>
-          )}
+          <Link to={`/abfrage${card.routerPath}?query=random`}>
+            Zur Zufallsabfrage
+          </Link>
         </div>
       ))}
     </section>
