@@ -265,15 +265,10 @@ function getRandomExercisesFromOperation(
 
     switch (operation) {
       case "addition":
-        numberOne = getRandomNumBetweenNumbers(1, rangeFrom);
-        numberTwo = getRandomNumBetweenNumbers(
-          rangeFrom - numberOne,
-          rangeTo - numberOne
-        );
-        if (numberOne === rangeFrom && numberTwo === 0) {
-          numberOne = rangeFrom - 1;
-          numberTwo = 1;
-        }
+        numberOne = getRandomNumBetweenNumbers(1, (rangeFrom + rangeTo) / 2);
+        if (numberOne < rangeFrom) {
+          numberTwo = getRandomNumBetweenNumbers(rangeFrom - numberOne, rangeTo - numberOne)
+        } else numberTwo = getRandomNumBetweenNumbers(1, rangeTo - numberOne);
         result = numberOne + numberTwo;
         break;
       case "subtraction":
