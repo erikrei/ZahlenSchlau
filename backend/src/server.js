@@ -52,7 +52,13 @@ app.listen(PORT, () => {
 });
 
 app.get("/lists", async (req, res) => {
-  const lists = await ExerciseList.find();
+  let lists;
+
+  try {
+    lists = await ExerciseList.find();
+  } catch (error) {
+    console.log(error);
+  }
 
   res.status(200).json(lists);
 });
@@ -68,8 +74,6 @@ app.get("/list/:listName", async (req, res) => {
 // POST: Test für Erstellung einer Aufgabenliste
 app.post("/create/list", async (req, res) => {
   const newData = createNewListData(req.body.listName, req.body.data);
-
-  console.log(newData);
 
   try {
     const dbResult = await ExerciseList.create(newData);
@@ -119,11 +123,26 @@ app.get("/exercises/random", async (req, res) => {
 app.get("/exercises/list", async (req, res) => {
   const listName = req.query.listName;
 
-  const list = await ExerciseList.findOne({
-    listName,
-  });
+  let list;
+  let settings;
 
-  const settings = await getSettingsObject();
+  try {
+    list = await ExerciseList.findOne({
+      listName,
+    });
+
+    if (!list) {
+      return res
+        .status(404)
+        .send(
+          "Es konnte keine Aufgabenliste mit gegebenem Namen gefunden werden."
+        );
+    }
+
+    settings = await getSettingsObject();
+  } catch (error) {
+    console.log(error);
+  }
 
   res.json({
     data: list.data,
@@ -193,8 +212,6 @@ app.put("/list/listname", async (req, res) => {
 app.put("/list/exercises", async (req, res) => {
   const { listName, data } = req.body.data;
   const newData = createNewListData(listName, data);
-
-  console.log(newData);
 
   let response;
 

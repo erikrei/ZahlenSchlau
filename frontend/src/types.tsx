@@ -40,7 +40,9 @@ export type TExerciseList = {
 
 export type TExerciseDataWithSettings = {
   data: TExerciseData[],
-  visualLearning: boolean
+  visualLearning: boolean,
+  statusCode?: number,
+  errorMessage?: string
 }
 
 export type TClickedExercise = TExerciseData & {

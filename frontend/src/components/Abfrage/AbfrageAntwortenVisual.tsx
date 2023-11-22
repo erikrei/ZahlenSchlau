@@ -20,7 +20,6 @@ export default function AbfrageAntwortenVisual({
 }) {
   const arr: TVisualExercise[] = [];
 
-  // loopLength = 13
   const loopLength = Math.ceil(answerNumber / 5);
 
   function getChildArrFromLength(arrLength: number): TVisualExerciseChild[] {
