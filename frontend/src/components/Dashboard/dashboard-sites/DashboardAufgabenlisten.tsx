@@ -43,7 +43,7 @@ export default function DashboardAufgabenlisten() {
             );
         });
     } else {
-      toast.error(`Aufgabenliste ${listName} wurde nicht gelöscht.`);
+      toast.error(`Aufgabenliste "${listName}" wurde nicht gelöscht.`);
     }
   }
 
@@ -52,7 +52,9 @@ export default function DashboardAufgabenlisten() {
       `Gib den neuen Namen der Aufgabenliste ${listName} an.`
     );
 
-    if (confirmRename) {
+    const listNameRegex = new RegExp(/^[-_A-Za-z0-9]+$/);
+
+    if (confirmRename && listNameRegex.test(confirmRename)) {
       axios
         .put("http://localhost:3000/list/listName", {
           data: {
@@ -62,7 +64,7 @@ export default function DashboardAufgabenlisten() {
         })
         .then(({ data }) => {
           toast.success(
-            `Aufgabenliste ${listName} wurde erfolgreich zu ${data.listName} umbenannt.`
+            `Aufgabenliste ${listName} wurde erfolgreich zu "${data.listName}" umbenannt.`
           );
           const newExerciseLists = exerciseLists?.map((list) => {
             if (list.listName === listName)
@@ -81,7 +83,9 @@ export default function DashboardAufgabenlisten() {
           toast.error(errorMessage);
         });
     } else {
-      toast.error(`Aufgabenliste ${listName} wurde nicht umbenannt.`);
+      toast.error(
+        `Aufgabenliste ${listName} wurde nicht umbenannt, da der neue Name "${confirmRename}" unzulässig ist.`
+      );
     }
   }
 

@@ -14,8 +14,6 @@ export default function DashboardSettings() {
 
   const [settings, setSettings] = React.useState<TSettings | null>(null);
 
-  console.log(settings);
-
   function resetFeedback() {
     setFeedback({
       status: '',
