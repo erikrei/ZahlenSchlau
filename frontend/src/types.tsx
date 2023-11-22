@@ -66,4 +66,5 @@ export type TSettings = {
   resultRangeFrom: number;
   resultRangeTo: number;
   divisor: number;
+  exerciseNumber: number;
 }

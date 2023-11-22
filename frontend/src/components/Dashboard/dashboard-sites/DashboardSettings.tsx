@@ -16,10 +16,10 @@ export default function DashboardSettings() {
 
   function resetFeedback() {
     setFeedback({
-      status: '',
-      message: '',
-      showFeedback: false
-    })
+      status: "",
+      message: "",
+      showFeedback: false,
+    });
   }
 
   function handleVisualLearningChange(
@@ -34,49 +34,55 @@ export default function DashboardSettings() {
       });
   }
 
-  function handleResultRangeFromChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleResultRangeFromChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     const { value } = event.target;
     const numberValue: number = Number(value);
 
     resetFeedback();
 
-    settings && setSettings({
-      ...settings,
-      resultRangeFrom: numberValue
-    })
+    settings &&
+      setSettings({
+        ...settings,
+        resultRangeFrom: numberValue,
+      });
 
-    if (settings && numberValue <= 0 ) {
+    if (settings && numberValue <= 0) {
       setFeedback({
-        message: 'Reichweite von darf nicht kleiner oder gleich 0 sein.',
+        message: "Reichweite von darf nicht kleiner oder gleich 0 sein.",
         showFeedback: true,
-        status: 'error'
-      })
+        status: "error",
+      });
     } else if (settings && numberValue >= settings.resultRangeTo) {
       setFeedback({
-        message: 'Reichweite von muss kleiner als Reichweite bis sein.',
+        message: "Reichweite von muss kleiner als Reichweite bis sein.",
         showFeedback: true,
-        status: 'error'
-      })
-    } 
+        status: "error",
+      });
+    }
   }
 
-  function handleResultRangeToChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleResultRangeToChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
     const { value } = event.target;
     const numberValue: number = Number(value);
 
     resetFeedback();
 
-    settings && setSettings({
-      ...settings,
-      resultRangeTo: numberValue
-    })
+    settings &&
+      setSettings({
+        ...settings,
+        resultRangeTo: numberValue,
+      });
 
     if (settings && numberValue <= settings.resultRangeFrom) {
       setFeedback({
-        message: 'Reichweite bis muss größer als Reichweite von sein.',
+        message: "Reichweite bis muss größer als Reichweite von sein.",
         showFeedback: true,
-        status: 'error'
-      })
+        status: "error",
+      });
     }
   }
 
@@ -86,17 +92,41 @@ export default function DashboardSettings() {
 
     resetFeedback();
 
-    settings && setSettings({
-      ...settings,
-      divisor: numberValue
-    })
+    settings &&
+      setSettings({
+        ...settings,
+        divisor: numberValue,
+      });
 
     if (numberValue <= 1) {
       setFeedback({
-        message: 'Divisor darf nicht kleiner oder gleich 1 sein.',
+        message: "Divisor darf nicht kleiner oder gleich 1 sein.",
         showFeedback: true,
-        status: 'error'
-      })
+        status: "error",
+      });
+    }
+  }
+
+  function handleExerciseNumberChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const { value } = event.target;
+    const numberValue: number = Number(value);
+
+    resetFeedback();
+
+    settings &&
+      setSettings({
+        ...settings,
+        exerciseNumber: numberValue,
+      });
+
+    if (numberValue <= 0) {
+      setFeedback({
+        message: "Aufgabenanzahl darf nicht kleiner oder gleich 0 sein.",
+        showFeedback: true,
+        status: "error",
+      });
     }
   }
 
@@ -124,6 +154,7 @@ export default function DashboardSettings() {
         resultRangeFrom: data.resultRangeFrom,
         resultRangeTo: data.resultRangeTo,
         divisor: data.divisor,
+        exerciseNumber: data.exerciseNumber,
       })
     );
   }, []);
@@ -219,6 +250,29 @@ export default function DashboardSettings() {
                 name="divisor"
                 value={settings?.divisor || ""}
                 onChange={(event) => handleDivisorChange(event)}
+              />
+            </label>
+          </div>
+        </div>
+        <div className="input-container">
+          <div className="input-description">
+            <h2>Aufgabenanzahl</h2>
+            <div className="input-container-description">
+              <p>
+                Mit dieser Einstellung kannst du bestimmen wie viele Aufgaben
+                bei der Zufallsabfrage gestellt werden sollen.
+              </p>
+            </div>
+          </div>
+          <div className="input-numberfields">
+            <label htmlFor="exerciseNumber">
+              Anzahl
+              <input
+                type="number"
+                id="exerciseNumber"
+                name="exerciseNumber"
+                value={settings?.exerciseNumber || ""}
+                onChange={(event) => handleExerciseNumberChange(event)}
               />
             </label>
           </div>

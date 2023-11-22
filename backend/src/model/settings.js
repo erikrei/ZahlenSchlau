@@ -4,7 +4,8 @@ const SettingsSchema = new mongoose.Schema({
     visualLearning: Boolean,
     resultRangeFrom: Number,
     resultRangeTo: Number,
-    divisor: Number
+    divisor: Number,
+    exerciseNumber: Number
 }, {
     collection: 'Settings'
 })
