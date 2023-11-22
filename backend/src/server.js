@@ -41,6 +41,7 @@ mongoose
         resultRangeFrom: 10,
         resultRangeTo: 30,
         divisor: 2,
+        exerciseNumber: 20,
       });
     }
   })
@@ -91,14 +92,19 @@ app.get("/exercises/random", async (req, res) => {
 
   const operation = req.query.type;
 
-  const { resultRangeFrom, resultRangeTo, visualLearning, divisor } =
-    await getSettingsObject();
+  const {
+    resultRangeFrom,
+    resultRangeTo,
+    visualLearning,
+    divisor,
+    exerciseNumber,
+  } = await getSettingsObject();
 
   if (operation && operationenStrings.indexOf(operation) !== -1) {
     // return 20 zufällige Aufgaben von gegebener Operation
     exercises = getRandomExercisesFromOperation(
       operation,
-      20,
+      exerciseNumber,
       resultRangeFrom,
       resultRangeTo,
       divisor
