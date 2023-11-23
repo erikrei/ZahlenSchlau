@@ -14,11 +14,67 @@ export default function DashboardSettings() {
 
   const [settings, setSettings] = React.useState<TSettings | null>(null);
 
-  function resetFeedback() {
+  function checkError(
+    numberValue: number,
+    numberType?: string,
+    isDivisor: boolean = false
+  ) {
+    if (!settings) return;
+
+    if (
+      settings.exerciseNumber <= 0 ||
+      settings.resultRangeFrom <= 0 ||
+      settings.resultRangeTo <= 0
+    ) {
+      if (settings.divisor <= 1) {
+        return setFeedback({
+          message: "Divisor muss mindestens 2 sein.",
+          showFeedback: true,
+          status: "error",
+        });
+      }
+      return setFeedback({
+        message: "Alle Zahlenwerte müssen mindestens 1 sein",
+        showFeedback: true,
+        status: "error",
+      });
+    }
+
+    if (numberValue <= 1) {
+      if (isDivisor && numberValue <= 1) {
+        return setFeedback({
+          message: "Divisor muss mindestens 2 sein.",
+          showFeedback: true,
+          status: "error",
+        });
+      }
+      return setFeedback({
+        message: "Alle Zahlenwerte müssen mindestens 1 sein",
+        showFeedback: true,
+        status: "error",
+      });
+    }
+
+    if (numberType === "from" && numberValue >= settings.resultRangeTo) {
+      return setFeedback({
+        message: "Reichweite von muss kleiner sein als Reichweite bis.",
+        showFeedback: true,
+        status: "error",
+      });
+    }
+
+    if (numberType === "to" && numberValue <= settings.resultRangeFrom) {
+      return setFeedback({
+        message: "Reichweite bis muss größer sein als Reichweite von.",
+        showFeedback: true,
+        status: "error",
+      });
+    }
+
     setFeedback({
-      status: "",
       message: "",
       showFeedback: false,
+      status: "",
     });
   }
 
@@ -40,27 +96,13 @@ export default function DashboardSettings() {
     const { value } = event.target;
     const numberValue: number = Number(value);
 
-    resetFeedback();
-
     settings &&
       setSettings({
         ...settings,
         resultRangeFrom: numberValue,
       });
 
-    if (settings && numberValue <= 0) {
-      setFeedback({
-        message: "Reichweite von darf nicht kleiner oder gleich 0 sein.",
-        showFeedback: true,
-        status: "error",
-      });
-    } else if (settings && numberValue >= settings.resultRangeTo) {
-      setFeedback({
-        message: "Reichweite von muss kleiner als Reichweite bis sein.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
+    checkError(numberValue, "from");
   }
 
   function handleResultRangeToChange(
@@ -69,28 +111,18 @@ export default function DashboardSettings() {
     const { value } = event.target;
     const numberValue: number = Number(value);
 
-    resetFeedback();
-
     settings &&
       setSettings({
         ...settings,
         resultRangeTo: numberValue,
       });
 
-    if (settings && numberValue <= settings.resultRangeFrom) {
-      setFeedback({
-        message: "Reichweite bis muss größer als Reichweite von sein.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
+    checkError(numberValue, "to");
   }
 
   function handleDivisorChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
     const numberValue: number = Number(value);
-
-    resetFeedback();
 
     settings &&
       setSettings({
@@ -98,13 +130,7 @@ export default function DashboardSettings() {
         divisor: numberValue,
       });
 
-    if (numberValue <= 1) {
-      setFeedback({
-        message: "Divisor darf nicht kleiner oder gleich 1 sein.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
+    checkError(numberValue, "", true);
   }
 
   function handleExerciseNumberChange(
@@ -113,21 +139,13 @@ export default function DashboardSettings() {
     const { value } = event.target;
     const numberValue: number = Number(value);
 
-    resetFeedback();
-
     settings &&
       setSettings({
         ...settings,
         exerciseNumber: numberValue,
       });
 
-    if (numberValue <= 0) {
-      setFeedback({
-        message: "Aufgabenanzahl darf nicht kleiner oder gleich 0 sein.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
+    checkError(numberValue);
   }
 
   function handleClick(event: React.FormEvent<HTMLFormElement>) {
@@ -158,10 +176,6 @@ export default function DashboardSettings() {
       })
     );
   }, []);
-
-  function checkError(numberOne: number, numberTwo: number): boolean {
-    return numberOne >= numberTwo;
-  }
 
   return (
     <section className="dashboard-settings-container">
