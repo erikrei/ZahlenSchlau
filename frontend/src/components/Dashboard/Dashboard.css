@@ -392,21 +392,28 @@ div.input-container-description > p {
     font-size: 1.2rem;
 }
 
-div.input-container-warning {
+div.input-container-sideinfo {
     margin-top: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-weight: bold;
     padding: 0.5rem 1rem;
-    background-color: yellow;
     border-radius: 0.5rem;
     color: var(--primary-black);
-}
 
-div.input-container-warning > svg {
-    width: 1.5rem;
-    height: 1.5rem;
+    > svg {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    &.warning {
+        background-color: yellow;
+    }
+
+    &.information {
+        background-color: lightblue;
+    }
 }
 
 div.input-container > div.input-numberfields {

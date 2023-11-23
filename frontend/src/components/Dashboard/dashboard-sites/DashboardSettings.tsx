@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { AiFillWarning } from "react-icons/ai";
+import { FaC, FaCircleInfo } from "react-icons/fa6";
 
 import { TSettings } from "../../../types";
 
@@ -13,70 +14,6 @@ export default function DashboardSettings() {
   });
 
   const [settings, setSettings] = React.useState<TSettings | null>(null);
-
-  function checkError(
-    numberValue: number,
-    numberType?: string,
-    isDivisor: boolean = false
-  ) {
-    if (!settings) return;
-
-    if (
-      settings.exerciseNumber <= 0 ||
-      settings.resultRangeFrom <= 0 ||
-      settings.resultRangeTo <= 0
-    ) {
-      if (settings.divisor <= 1) {
-        return setFeedback({
-          message: "Divisor muss mindestens 2 sein.",
-          showFeedback: true,
-          status: "error",
-        });
-      }
-      return setFeedback({
-        message: "Alle Zahlenwerte müssen mindestens 1 sein",
-        showFeedback: true,
-        status: "error",
-      });
-    }
-
-    if (numberValue <= 1) {
-      if (isDivisor && numberValue <= 1) {
-        return setFeedback({
-          message: "Divisor muss mindestens 2 sein.",
-          showFeedback: true,
-          status: "error",
-        });
-      }
-      return setFeedback({
-        message: "Alle Zahlenwerte müssen mindestens 1 sein",
-        showFeedback: true,
-        status: "error",
-      });
-    }
-
-    if (numberType === "from" && numberValue >= settings.resultRangeTo) {
-      return setFeedback({
-        message: "Reichweite von muss kleiner sein als Reichweite bis.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
-
-    if (numberType === "to" && numberValue <= settings.resultRangeFrom) {
-      return setFeedback({
-        message: "Reichweite bis muss größer sein als Reichweite von.",
-        showFeedback: true,
-        status: "error",
-      });
-    }
-
-    setFeedback({
-      message: "",
-      showFeedback: false,
-      status: "",
-    });
-  }
 
   function handleVisualLearningChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -101,8 +38,6 @@ export default function DashboardSettings() {
         ...settings,
         resultRangeFrom: numberValue,
       });
-
-    checkError(numberValue, "from");
   }
 
   function handleResultRangeToChange(
@@ -116,8 +51,6 @@ export default function DashboardSettings() {
         ...settings,
         resultRangeTo: numberValue,
       });
-
-    checkError(numberValue, "to");
   }
 
   function handleDivisorChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -129,8 +62,6 @@ export default function DashboardSettings() {
         ...settings,
         divisor: numberValue,
       });
-
-    checkError(numberValue, "", true);
   }
 
   function handleExerciseNumberChange(
@@ -144,8 +75,6 @@ export default function DashboardSettings() {
         ...settings,
         exerciseNumber: numberValue,
       });
-
-    checkError(numberValue);
   }
 
   function handleClick(event: React.FormEvent<HTMLFormElement>) {
@@ -177,6 +106,35 @@ export default function DashboardSettings() {
     );
   }, []);
 
+  React.useEffect(() => {
+    if (settings) {
+      if (
+        settings.divisor <= 1 ||
+        settings.resultRangeFrom <= 0 ||
+        settings.resultRangeTo <= 0 ||
+        settings.exerciseNumber <= 0
+      ) {
+        setFeedback({
+          message: "Überprüfe deine Eingaben.",
+          showFeedback: true,
+          status: "error",
+        });
+      } else if (settings.resultRangeFrom >= settings.resultRangeTo) {
+        setFeedback({
+          message: "Reichweite von muss kleiner sein als Reichweite bis.",
+          showFeedback: true,
+          status: "error",
+        });
+      } else {
+        setFeedback({
+          message: "",
+          showFeedback: false,
+          status: "",
+        });
+      }
+    }
+  }, [settings]);
+
   return (
     <section className="dashboard-settings-container">
       <form className="settings-form" onSubmit={(event) => handleClick(event)}>
@@ -189,7 +147,7 @@ export default function DashboardSettings() {
                 Antwortmöglichkeiten in einer visuellen Form anstelle von Zahlen
                 dargestellt werden sollen.
               </p>
-              <div className="input-container-warning">
+              <div className="input-container-sideinfo warning">
                 <AiFillWarning />
                 <p>
                   Beachte, dass die visuelle Form nur angezeigt wird, wenn das
@@ -213,7 +171,7 @@ export default function DashboardSettings() {
                 Mit dieser Einstellung kannst du bestimmen in welcher Reichweite
                 die Ergebnisse der Aufgaben sein sollen.
               </p>
-              <div className="input-container-warning">
+              <div className="input-container-sideinfo warning">
                 <AiFillWarning />
                 <p>
                   Beachte, dass sich Aufgaben wiederholen können, wenn die
@@ -253,6 +211,10 @@ export default function DashboardSettings() {
                 Mit dieser Einstellung kannst du bestimmen durch welche Zahl bei
                 der Division (geteilt rechnen) geteilt wird.
               </p>
+              <div className="input-container-sideinfo information">
+                <FaCircleInfo />
+                <p>Muss mindestens 2 sein.</p>
+              </div>
             </div>
           </div>
           <div className="input-numberfields">
